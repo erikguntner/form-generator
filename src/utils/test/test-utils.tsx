@@ -1,7 +1,6 @@
-import {ReactElement} from 'react';
 import {render} from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
+import {ReactElement} from 'react';
 
 interface ProviderProps {
   children: ReactElement;
