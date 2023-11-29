@@ -20,6 +20,12 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiIconButton: {
+      defaultProps: {
+        disableFocusRipple: true,
+        disableTouchRipple: true,
+      },
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: true,
@@ -29,7 +35,6 @@ const theme = createTheme({
         root: {
           textTransform: 'none',
         },
-
         outlinedSecondary: {
           color: 'black',
           borderColor: 'black',

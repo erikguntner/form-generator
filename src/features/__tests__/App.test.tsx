@@ -7,9 +7,8 @@ describe('App', () => {
     expect(screen.getByRole('heading', {level: 1})).toHaveTextContent(
       'My Applications'
     );
-    expect(screen.getByRole('button')).toHaveTextContent('Create Application');
-    expect(screen.getByRole('heading', {level: 2})).toHaveTextContent(
-      'No Applications'
-    );
+    expect(
+      screen.getByRole('button', {name: /Create Application/i})
+    ).toBeInTheDocument();
   });
 });

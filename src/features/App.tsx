@@ -1,3 +1,4 @@
+import {Add} from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -6,6 +7,9 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+
+import {ApplicationList} from './ApplicationList';
+import {applications} from './ApplicationList/constants';
 
 function App() {
   const createApplication = () => {
@@ -27,17 +31,17 @@ function App() {
             My Applications
           </Typography>
           <Stack direction="row">
-            <Button variant="contained" onClick={createApplication}>
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              onClick={createApplication}
+            >
               Create Application
             </Button>
           </Stack>
           <Divider />
         </Stack>
-        <Stack sx={{pt: 3}}>
-          <Typography variant="h2" sx={{fontSize: 24}}>
-            No Applications
-          </Typography>
-        </Stack>
+        <ApplicationList applications={applications} />
       </Container>
     </Box>
   );
