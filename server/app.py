@@ -1,5 +1,4 @@
 from connexion import FlaskApp
-from connexion.options import SwaggerUIOptions
 from pathlib import Path
 
 import orm
