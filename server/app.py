@@ -1,7 +1,7 @@
 from connexion import FlaskApp
 from pathlib import Path
 
-import orm
+import models.orm as orm
 
 db_session = None
 
