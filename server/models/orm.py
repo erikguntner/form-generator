@@ -12,8 +12,12 @@ class Application(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    created_at = Column(DateTime, nullable=False, default=datetime.datetime.now())
-    updated_at = Column(DateTime, nullable=False, default=datetime.datetime.now())
+    created_at = Column(
+        DateTime, nullable=False, default=datetime.datetime.now()
+    )
+    updated_at = Column(
+        DateTime, nullable=False, default=datetime.datetime.now()
+    )
 
 
 def init_db(uri):
