@@ -1,0 +1,79 @@
+openapi: '3.0.0'
+
+info:
+  title: Hello World
+  version: '1.0'
+servers:
+  - url: /api
+
+paths:
+  /application:
+    post:
+      operationId: controllers.application_controller.post_application
+      responses:
+        200:
+          description: application response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+  /application/{application_id}:
+    get:
+      operationId: controllers.application_controller.get_application
+      parameters:
+        - name: application_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: application response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+  /applications:
+    get:
+      operationId: controllers.application_controller.get_applications
+      responses:
+        200:
+          description: applications response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+
+components:
+  schemas:
+    Application:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          description: The auto-generated id of the application.
+          example: '1'
+          readOnly: true
+        name:
+          type: string
+          example: 'Guest Application'
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the application was created.
+          example: '2020-01-01T00:00:00Z'
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the application was last updated.
+          example: '2020-01-01T00:00:00Z'
