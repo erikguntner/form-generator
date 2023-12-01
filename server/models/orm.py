@@ -1,8 +1,19 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy import Column, Integer, String, DateTime
+import datetime
 
 Base = declarative_base()
+
+
+class Application(Base):
+    __tablename__ = "application"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.datetime.now())
+    updated_at = Column(DateTime, nullable=False, default=datetime.datetime.now())
 
 
 def init_db(uri):

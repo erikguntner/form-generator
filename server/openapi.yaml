@@ -7,22 +7,45 @@ servers:
   - url: /api
 
 paths:
-  /greeting/{name}:
-    get:
-      operationId: greetings.post_greetings
+  /application:
+    post:
+      operationId: controllers.application_controller.post_application
       responses:
         200:
-          description: greeting response
+          description: application response
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
-                example: 'hello dave!'
-      parameters:
-        - name: name
-          in: path
-          description: Name of the person to greet.
-          required: true
-          schema:
-            type: string
-            example: 'dave'
+                $ref: '#/components/schemas/Application'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+
+components:
+  schemas:
+    Application:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          description: The auto-generated id of the application.
+          example: '1'
+          readOnly: true
+        name:
+          type: string
+          example: 'Guest Application'
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the application was created.
+          example: '2020-01-01T00:00:00Z'
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the application was last updated.
+          example: '2020-01-01T00:00:00Z'
