@@ -1,5 +1,5 @@
 import pytest
-from init import create_app
+from init import create_app, init_db
 
 
 @pytest.fixture()
@@ -11,7 +11,10 @@ def app():
         }
     )
 
-    yield app["app"]
+    with app.app.app_context():
+        init_db()
+
+    yield app
 
 
 @pytest.fixture()

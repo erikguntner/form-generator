@@ -1,31 +1,20 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy import Column, Integer, String, DateTime
+from init import db
+from sqlalchemy import Integer, String, DateTime
+from sqlalchemy.orm import Mapped, mapped_column
 import datetime
+from app import app
 
-Base = declarative_base()
 
-
-class Application(Base):
-    __tablename__ = "application"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
-    created_at = Column(
+class Application(db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    created_at: Mapped[str] = mapped_column(
         DateTime, nullable=False, default=datetime.datetime.now()
     )
-    updated_at = Column(
+    updated_at: Mapped[str] = mapped_column(
         DateTime, nullable=False, default=datetime.datetime.now()
     )
 
 
-def init_db(uri):
-    engine = create_engine(uri)
-    db_session = scoped_session(
-        sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    )
-
-    Base.query = db_session.query_property()
-    Base.metadata.create_all(bind=engine)
-    return db_session
+with app.app.app_context():
+    db.create_all()

@@ -1,14 +1,16 @@
 import pytest
-from app import db_session
+from init import db
 from models.orm import Application
 
 
-def test_get_application(app):
-    application = Application(name="Admin Application")
-    db_session.add(application)
-    db_session.commit()
+def test_get_application(client, app):
+    with app.app.app_context():
+        application = Application(name="Admin Application")
+        db.session.add(application)
+        db.session.commit()
+        db.session.refresh(application)
+        # get the application from the database
 
-    client = app.test_client()
     response = client.get(f"/api/application/{application.id}")
     data = response.json()
 
@@ -17,13 +19,14 @@ def test_get_application(app):
 
 
 @pytest.mark.parametrize(("name"), ("Admin Application"))
-def test_post_application(client, name):
+def test_post_application(client, app, name):
     response = client.post("/api/application", json={"name": name})
     data = response.json()
 
     assert response.status_code == 201
     assert data["name"] == name
 
-    application = db_session.query(Application).filter_by(name=name).first()
-    assert application is not None
-    assert application.name == name
+    with app.app.app_context():
+        application = db.session.get(Application, data["id"])
+        assert application is not None
+        assert application.name == name

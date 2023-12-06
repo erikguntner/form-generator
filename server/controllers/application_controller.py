@@ -1,7 +1,7 @@
 from models.schemas import application_schema
 from models.orm import Application
 from marshmallow import ValidationError
-from app import db_session
+from init import db
 
 
 def post_application(body):
@@ -13,15 +13,17 @@ def post_application(body):
     name = data["name"]
 
     application = Application(name=name)
-    db_session.add(application)
-    db_session.commit()
-    response = application_schema.dump(Application.query.get(application.id))
+    db.session.add(application)
+    db.session.commit()
+    response = application_schema.dump(
+        db.session.get(Application, application.id)
+    )
 
     return response, 201
 
 
 def get_application(application_id):
-    application = Application.query.get(application_id)
+    application = db.session.get(Application, application_id)
     if application is None:
         return "Not found", 404
 
