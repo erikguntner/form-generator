@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import {useGetApplicationsQuery} from '../services/generatedApi';
 import {ApplicationList} from './ApplicationList';
 import {applications} from './ApplicationList/constants';
 
@@ -15,6 +16,9 @@ function App() {
   const createApplication = () => {
     console.log('createApplication');
   };
+
+  const {data} = useGetApplicationsQuery();
+  console.log(data);
 
   return (
     <Box

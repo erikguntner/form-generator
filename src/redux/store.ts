@@ -1,7 +1,11 @@
 import type {PreloadedStateShapeFromReducersMapObject} from '@reduxjs/toolkit';
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 
-const rootReducer = combineReducers({});
+import {emptySplitApi} from '../services/emptyApi';
+
+const rootReducer = combineReducers({
+  [emptySplitApi.reducerPath]: emptySplitApi.reducer,
+});
 
 export const setupStore = (
   preloadedState?: PreloadedStateShapeFromReducersMapObject<RootState>
@@ -9,7 +13,8 @@ export const setupStore = (
   return configureStore({
     reducer: rootReducer,
     preloadedState,
-    middleware: getDefaultMiddleware => getDefaultMiddleware(),
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(emptySplitApi.middleware),
     devTools: process.env.NODE_ENV !== 'production',
   });
 };
