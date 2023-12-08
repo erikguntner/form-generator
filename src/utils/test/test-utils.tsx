@@ -1,5 +1,4 @@
 import {ThemeProvider} from '@mui/material';
-import {PreloadedStateShapeFromReducersMapObject} from '@reduxjs/toolkit';
 import {render, RenderOptions} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {ReactElement} from 'react';
@@ -13,7 +12,7 @@ interface ProviderProps {
 }
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: PreloadedStateShapeFromReducersMapObject<RootState>;
+  preloadedState?: Partial<RootState>;
   store?: AppStore;
 }
 

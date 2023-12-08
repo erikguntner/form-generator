@@ -17,12 +17,12 @@ describe('ApplicationList', () => {
       applications.length
     );
 
-    applications.forEach(({title, createdAt, updatedAt}) => {
-      expect(screen.getByText(title)).toBeInTheDocument();
+    applications.forEach(({name, created_at, updated_at}) => {
+      expect(screen.getByText(name)).toBeInTheDocument();
       expect(
-        screen.getByText(`Created: ${formatDate(createdAt)}`)
+        screen.getByText(`Created: ${formatDate(created_at)}`)
       ).toBeInTheDocument();
-      expect(screen.getByText(formatDate(updatedAt))).toBeInTheDocument();
+      expect(screen.getByText(formatDate(updated_at))).toBeInTheDocument();
     });
   });
 });

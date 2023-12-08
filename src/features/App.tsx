@@ -10,15 +10,13 @@ import {
 
 import {useGetApplicationsQuery} from '../services/generatedApi';
 import {ApplicationList} from './ApplicationList';
-import {applications} from './ApplicationList/constants';
 
 function App() {
   const createApplication = () => {
     console.log('createApplication');
   };
 
-  const {data} = useGetApplicationsQuery();
-  console.log(data);
+  const {data, isLoading} = useGetApplicationsQuery();
 
   return (
     <Box
@@ -45,7 +43,11 @@ function App() {
           </Stack>
           <Divider />
         </Stack>
-        <ApplicationList applications={applications} />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <ApplicationList applications={data || []} />
+        )}
       </Container>
     </Box>
   );

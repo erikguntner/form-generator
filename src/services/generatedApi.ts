@@ -29,33 +29,33 @@ const injectedRtkApi = api.injectEndpoints({
 export {injectedRtkApi as applicationApi};
 export type PostApplicationApiResponse =
   /** status 200 application response */ {
-    id?: string;
+    id: string;
     name: string;
-    created_at?: string;
-    updated_at?: string;
+    created_at: string;
+    updated_at: string;
   };
 export type PostApplicationApiArg = {
   body: {
     name: string;
-    updated_at?: string;
+    updated_at: string;
   };
 };
 export type GetApplicationByApplicationIdApiResponse =
   /** status 200 application response */ {
-    id?: string;
+    id: string;
     name: string;
-    created_at?: string;
-    updated_at?: string;
+    created_at: string;
+    updated_at: string;
   };
 export type GetApplicationByApplicationIdApiArg = {
   applicationId: string;
 };
 export type GetApplicationsApiResponse =
   /** status 200 applications response */ {
-    id?: string;
+    id: string;
     name: string;
-    created_at?: string;
-    updated_at?: string;
+    created_at: string;
+    updated_at: string;
   }[];
 export type GetApplicationsApiArg = void;
 export const {

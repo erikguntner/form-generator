@@ -1,4 +1,3 @@
-import type {PreloadedStateShapeFromReducersMapObject} from '@reduxjs/toolkit';
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 
 import {emptySplitApi} from '../services/emptyApi';
@@ -7,9 +6,7 @@ const rootReducer = combineReducers({
   [emptySplitApi.reducerPath]: emptySplitApi.reducer,
 });
 
-export const setupStore = (
-  preloadedState?: PreloadedStateShapeFromReducersMapObject<RootState>
-) => {
+export const setupStore = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer: rootReducer,
     preloadedState,
