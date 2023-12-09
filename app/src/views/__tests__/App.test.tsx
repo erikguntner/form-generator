@@ -10,7 +10,7 @@ import {
   screen,
   waitForElementToBeRemoved,
 } from '../../utils/test/test-utils';
-import App from '../App';
+import {App} from '../App';
 
 describe('App', () => {
   test('Renders all aplications', async () => {
