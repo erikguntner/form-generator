@@ -1,4 +1,5 @@
 import {http, HttpResponse} from 'msw';
+import {BrowserRouter} from 'react-router-dom';
 
 import {
   applications,
@@ -22,7 +23,11 @@ describe('App', () => {
       })
     );
 
-    render(<App />);
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
     expect(screen.getByRole('heading', {level: 1})).toHaveTextContent(
       'My Applications'
     );

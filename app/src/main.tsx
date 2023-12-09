@@ -13,7 +13,7 @@ import {App, ApplicationWorkspace} from './views';
 
 const store = setupStore();
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,

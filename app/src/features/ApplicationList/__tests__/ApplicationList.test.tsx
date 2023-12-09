@@ -1,10 +1,16 @@
+import {BrowserRouter} from 'react-router-dom';
+
 import {render, screen} from '../../../utils/test/test-utils';
 import {ApplicationList} from '..';
 import {applications, formatDate} from '../constants';
 
 const setup = () => {
   const applicationsList = applications;
-  render(<ApplicationList applications={applicationsList} />);
+  render(
+    <BrowserRouter>
+      <ApplicationList applications={applicationsList} />
+    </BrowserRouter>
+  );
 
   return {applications: applicationsList};
 };
