@@ -29,7 +29,7 @@ jobs:
           pip install -r requirements.txt
       - name: Test with pytest
         run: |
-          python -m pytest --cov=app
+          python3 -m pytest --cov=app
   test-app:
     runs-on: ubuntu-latest
     defaults:
@@ -43,7 +43,7 @@ jobs:
         with:
           node-version: '16.x'
           cache: 'npm'
-          cache-dependency-path: app/package-lock.json
+          cache-dependency-path: package-lock.json
       - name: Run npm CI
         run: npm ci
       - name: Test app
