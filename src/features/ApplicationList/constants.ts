@@ -1,18 +1,11 @@
 import {faker} from '@faker-js/faker';
 
-export interface Application {
-  id: string;
-  title: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const buildApplication = (num: number): Application => {
+const buildApplication = (num: number) => {
   return {
-    id: faker.string.uuid(),
-    title: `My Application ${num}`,
-    createdAt: faker.date.past(),
-    updatedAt: faker.date.past(),
+    id: faker.string.numeric(4),
+    name: `My Application ${num}`,
+    created_at: faker.date.past().toString(),
+    updated_at: faker.date.past().toString(),
   };
 };
 
@@ -20,7 +13,9 @@ export const applications = Array.from(Array(3), (_, index) =>
   buildApplication(index)
 );
 
-export const formatDate = (date: Date) => {
+export const formatDate = (date: string) => {
+  const dateObj = new Date(date);
+
   const months = [
     'Jan',
     'Feb',
@@ -36,9 +31,9 @@ export const formatDate = (date: Date) => {
     'Dec',
   ];
 
-  const day = date.getDay() + 1;
-  const month = date.getMonth();
-  const year = date.getFullYear();
+  const day = dateObj.getDay() + 1;
+  const month = dateObj.getMonth();
+  const year = dateObj.getFullYear();
 
   return `${day} ${months[month]} ${year}`;
 };

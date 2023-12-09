@@ -1,18 +1,19 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {IconButton, Stack, Typography} from '@mui/material';
 
-import {Application, formatDate} from './constants';
+import {GetApplicationsApiResponse} from '../../services/generatedApi';
+import {formatDate} from './constants';
 
 interface ApplicationListProps {
-  applications: Application[];
+  applications: GetApplicationsApiResponse;
 }
 
 export const ApplicationList = ({applications}: ApplicationListProps) => {
   return (
     <Stack sx={{pt: 3}} spacing={2}>
-      {applications.map(({id, title, createdAt, updatedAt}) => {
-        const dateCreated = formatDate(createdAt);
-        const dateUpdated = formatDate(updatedAt);
+      {applications.map(({id, name, created_at, updated_at}) => {
+        const dateCreated = formatDate(created_at);
+        const dateUpdated = formatDate(updated_at);
 
         return (
           <Stack
@@ -31,7 +32,7 @@ export const ApplicationList = ({applications}: ApplicationListProps) => {
             }}
           >
             <Stack>
-              <Typography sx={{fontSize: '14px'}}>{title}</Typography>
+              <Typography sx={{fontSize: '14px'}}>{name}</Typography>
               <Typography fontSize="small" sx={{color: 'text.secondary'}}>
                 Created: {dateCreated}
               </Typography>

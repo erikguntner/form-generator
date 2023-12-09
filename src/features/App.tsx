@@ -8,13 +8,15 @@ import {
   Typography,
 } from '@mui/material';
 
+import {useGetApplicationsQuery} from '../services/generatedApi';
 import {ApplicationList} from './ApplicationList';
-import {applications} from './ApplicationList/constants';
 
 function App() {
   const createApplication = () => {
-    console.log('createApplication');
+    console.log('createApplication button clicked');
   };
+
+  const {data, isLoading} = useGetApplicationsQuery();
 
   return (
     <Box
@@ -41,7 +43,11 @@ function App() {
           </Stack>
           <Divider />
         </Stack>
-        <ApplicationList applications={applications} />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <ApplicationList applications={data || []} />
+        )}
       </Container>
     </Box>
   );

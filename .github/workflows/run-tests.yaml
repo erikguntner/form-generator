@@ -1,0 +1,27 @@
+name: Run API and App Tests
+on:
+  push:
+  pull_request:
+    branches: [main]
+  # This is also a reusable workflow that can be called from other workflows
+  workflow_call:
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+    env:
+      VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use latest Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - name: Run npm CI
+        run: npm ci
+      - name: Test app
+        run: npm run test -- --no-color --run
