@@ -1,5 +1,9 @@
 import {http, HttpResponse} from 'msw';
 
+import {
+  applications,
+  formatDate,
+} from '../../features/ApplicationList/constants';
 import {server} from '../../utils/test/server';
 import {
   render,
@@ -7,7 +11,6 @@ import {
   waitForElementToBeRemoved,
 } from '../../utils/test/test-utils';
 import App from '../App';
-import {applications, formatDate} from '../ApplicationList/constants';
 
 describe('App', () => {
   test('Renders all aplications', async () => {
