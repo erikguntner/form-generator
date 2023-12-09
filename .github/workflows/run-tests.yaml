@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: 'latest'
           cache: 'npm'
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: app/package-lock.json
       - name: Run npm CI
         run: npm ci
       - name: Test app
