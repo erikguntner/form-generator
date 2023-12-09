@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: '/application/:id',
+    path: '/application/:applicationId',
     element: <ApplicationWorkspace />,
   },
 ]);
