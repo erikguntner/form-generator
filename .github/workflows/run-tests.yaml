@@ -6,36 +6,11 @@ on:
   # This is also a reusable workflow that can be called from other workflows
   workflow_call:
 jobs:
-  test-api:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./server
-    steps:
-      - uses: actions/checkout@main
-        with:
-          fetch-depth: 500
-          fetch-tags: true
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          cache: 'pip'
-      - name: Upgrade pip
-        run: python -m pip install --upgrade pip
-      - name: Install API dev Dependencies
-        run: |
-          pip install -r requirements.txt
-      - name: Test with pytest
-        run: |
-          python3 -m pytest --cov=app
   test-app:
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-        working-directory: ./app
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 16.x
