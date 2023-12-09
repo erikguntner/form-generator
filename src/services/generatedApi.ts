@@ -37,7 +37,6 @@ export type PostApplicationApiResponse =
 export type PostApplicationApiArg = {
   body: {
     name: string;
-    updated_at: string;
   };
 };
 export type GetApplicationByApplicationIdApiResponse =

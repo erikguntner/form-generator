@@ -12,6 +12,16 @@ paths:
       tags:
         - application
       operationId: controllers.application_controller.post_application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
       responses:
         200:
           description: application response
@@ -19,11 +29,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Application'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Application'
+                required:
+                  - name
+
   /application/{application_id}:
     get:
       tags:
