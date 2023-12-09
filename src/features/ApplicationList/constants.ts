@@ -2,7 +2,7 @@ import {faker} from '@faker-js/faker';
 
 const buildApplication = (num: number) => {
   return {
-    id: faker.string.uuid(),
+    id: faker.string.numeric(),
     name: `My Application ${num}`,
     created_at: faker.date.past().toString(),
     updated_at: faker.date.past().toString(),
