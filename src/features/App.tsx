@@ -18,8 +18,6 @@ function App() {
 
   const {data, isLoading} = useGetApplicationsQuery();
 
-  console.log(data);
-
   return (
     <Box
       sx={{
