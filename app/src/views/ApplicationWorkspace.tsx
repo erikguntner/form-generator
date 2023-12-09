@@ -48,11 +48,12 @@ export const ApplicationWorkspace = () => {
           >
             <Typography variant="subtitle1">Content</Typography>
           </Stack>
-          <Stack sx={{flex: 1, py: 8, px: 4}}>
+          <Stack sx={{flex: 1, py: 10, px: 2}}>
             <Stack
               sx={{
                 height: '100%',
                 width: '100%',
+                aspectRatio: 'auto',
                 backgroundColor: 'background.default',
                 borderRadius: 2,
                 boxShadow:

@@ -43,6 +43,7 @@ export const ApplicationList = ({applications}: ApplicationListProps) => {
                 variant="contained"
                 color="inherit"
                 component={Link}
+                size="small"
                 to={`/application/${id}`}
               >
                 Edit
