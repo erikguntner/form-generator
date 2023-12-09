@@ -22,7 +22,6 @@ def test_get_application(client, app):
 def test_post_application(client, app, name):
     response = client.post("/api/application", json={"name": name})
     data = response.json()
-    print(data)
 
     assert response.status_code == 201
     assert data["name"] == name
