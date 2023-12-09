@@ -4,6 +4,8 @@ from connexion import FlaskApp
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 
 
 class Base(DeclarativeBase):
@@ -18,6 +20,15 @@ def create_app(test_config=None):
     app.add_api("openapi.yaml")
 
     application = app.app
+
+    app.add_middleware(
+        CORSMiddleware,
+        position=MiddlewarePosition.BEFORE_VALIDATION,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     # some deploy systems set the database url in the environ
     db_url = os.environ.get("DATABASE_URL")
