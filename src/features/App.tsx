@@ -13,7 +13,7 @@ import {ApplicationList} from './ApplicationList';
 
 function App() {
   const createApplication = () => {
-    console.log('createApplication');
+    console.log('createApplication button clicked');
   };
 
   const {data, isLoading} = useGetApplicationsQuery();
