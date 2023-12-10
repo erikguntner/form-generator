@@ -8,10 +8,10 @@ import {
   Typography,
 } from '@mui/material';
 
+import {ApplicationList} from '../features/ApplicationList';
 import {useGetApplicationsQuery} from '../services/generatedApi';
-import {ApplicationList} from './ApplicationList';
 
-function App() {
+export const App = () => {
   const createApplication = () => {
     console.log('createApplication button clicked');
   };
@@ -51,6 +51,4 @@ function App() {
       </Container>
     </Box>
   );
-}
-
-export default App;
+};

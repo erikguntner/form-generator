@@ -1,5 +1,6 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {IconButton, Stack, Typography} from '@mui/material';
+import {Button, IconButton, Stack, Typography} from '@mui/material';
+import {Link} from 'react-router-dom';
 
 import {GetApplicationsApiResponse} from '../../services/generatedApi';
 import {formatDate} from './constants';
@@ -31,12 +32,24 @@ export const ApplicationList = ({applications}: ApplicationListProps) => {
               alignItems: 'center',
             }}
           >
-            <Stack>
-              <Typography sx={{fontSize: '14px'}}>{name}</Typography>
-              <Typography fontSize="small" sx={{color: 'text.secondary'}}>
-                Created: {dateCreated}
-              </Typography>
+            <Stack spacing={2} direction="row" alignItems="center">
+              <Stack>
+                <Typography sx={{fontSize: '14px'}}>{name}</Typography>
+                <Typography fontSize="small" sx={{color: 'text.secondary'}}>
+                  Created: {dateCreated}
+                </Typography>
+              </Stack>
+              <Button
+                variant="contained"
+                color="inherit"
+                component={Link}
+                size="small"
+                to={`/application/${id}`}
+              >
+                Edit
+              </Button>
             </Stack>
+
             <Stack direction="row" spacing={2} sx={{alignItems: 'center'}}>
               <Typography>{dateUpdated}</Typography>
               <IconButton

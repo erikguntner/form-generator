@@ -1,13 +1,17 @@
 import {http, HttpResponse} from 'msw';
+import {BrowserRouter} from 'react-router-dom';
 
+import {
+  applications,
+  formatDate,
+} from '../../features/ApplicationList/constants';
 import {server} from '../../utils/test/server';
 import {
   render,
   screen,
   waitForElementToBeRemoved,
 } from '../../utils/test/test-utils';
-import App from '../App';
-import {applications, formatDate} from '../ApplicationList/constants';
+import {App} from '../App';
 
 describe('App', () => {
   test('Renders all aplications', async () => {
@@ -19,7 +23,11 @@ describe('App', () => {
       })
     );
 
-    render(<App />);
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
     expect(screen.getByRole('heading', {level: 1})).toHaveTextContent(
       'My Applications'
     );
