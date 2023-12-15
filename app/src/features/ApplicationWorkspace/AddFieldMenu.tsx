@@ -1,7 +1,8 @@
 import {Menu, MenuItem, MenuProps} from '@mui/material';
 import {alpha, styled} from '@mui/material/styles';
 
-import {FieldTypeOptions, FieldTypes} from './constants';
+import {FieldTypes} from './constants';
+import {FieldIcons} from './FieldIcons';
 
 interface Field {
   type: FieldTypes;
@@ -65,7 +66,7 @@ export const AddFieldMenu = ({
       {menuItems.map(({type, value}) => {
         return (
           <MenuItem key={type} onClick={() => handleClose(type)} disableRipple>
-            {FieldTypeOptions[type].icon}
+            {FieldIcons[type].icon}
             {value}
           </MenuItem>
         );

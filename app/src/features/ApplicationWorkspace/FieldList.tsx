@@ -1,7 +1,8 @@
 import {List, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import {MouseEvent as ReactMouseEvent} from 'react';
 
-import {Field, FieldTypeOptions} from './constants';
+import {Field} from './constants';
+import {FieldIcons} from './FieldIcons';
 
 interface FieldListProps {
   fields: Field[];
@@ -18,15 +19,17 @@ export const FieldList = ({
   handleListItemClick,
 }: FieldListProps) => {
   return (
-    <List aria-label="list of fields">
+    <List sx={{px: 1}} aria-label="list of fields">
       {fields.map(({id, type, title}) => (
         <ListItemButton
+          sx={{borderRadius: '8px'}}
           key={id}
           selected={selectedId === id}
           onClick={event => handleListItemClick(event, id)}
+          disableRipple
         >
           <ListItemIcon sx={{color: 'text.primary'}}>
-            {FieldTypeOptions[type].icon}
+            {FieldIcons[type].icon}
           </ListItemIcon>
           <ListItemText primary={title} />
         </ListItemButton>
