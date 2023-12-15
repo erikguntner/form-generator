@@ -1,4 +1,4 @@
-type FieldTypes =
+export type FieldTypes =
   | 'short_text'
   | 'long_text'
   | 'number'
