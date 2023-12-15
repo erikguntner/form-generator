@@ -1,7 +1,7 @@
 import {BrowserRouter} from 'react-router-dom';
 
 import {render, screen} from '../../../utils/test/test-utils';
-import {ApplicationList} from '..';
+import {ApplicationList} from '../ApplicationList';
 import {applications, formatDate} from '../constants';
 
 const setup = () => {
