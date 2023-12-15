@@ -1,64 +1,50 @@
-import {
-  Check,
-  Email,
-  ExpandMore,
-  LocalPhone,
-  RadioButtonChecked,
-  ShortText,
-  Subject,
-} from '@mui/icons-material';
 import {Menu, MenuItem, MenuProps} from '@mui/material';
 import {alpha, styled} from '@mui/material/styles';
 
-import {FieldTypes} from './constants';
+import {FieldTypeOptions, FieldTypes} from './constants';
 
 interface Field {
-  label: FieldTypes;
+  type: FieldTypes;
   value: string;
 }
 
 const menuItems: Field[] = [
   {
-    label: 'short_text',
+    type: 'short_text',
     value: 'Short text',
   },
   {
-    label: 'long_text',
+    type: 'long_text',
     value: 'Long text',
   },
   {
-    label: 'number',
+    type: 'number',
     value: 'Phone Number',
   },
 
   {
-    label: 'yes_no',
+    type: 'yes_no',
     value: 'Yes or No',
   },
   {
-    label: 'multiple_choice',
+    type: 'multiple_choice',
     value: 'Multiple Choice',
   },
 
   {
-    label: 'email',
+    type: 'email',
     value: 'Email',
   },
   {
-    label: 'dropdown',
+    type: 'dropdown',
     value: 'Dropdown',
   },
 ];
 
 interface AddFieldMenuProps {
   isOpen: boolean;
-  handleClose: () => void;
+  handleClose: (type?: FieldTypes) => void;
   anchorEl: HTMLElement | null;
-}
-
-interface FieldTypeOption {
-  icon: React.ReactNode;
-  color: string;
 }
 
 export const AddFieldMenu = ({
@@ -66,52 +52,20 @@ export const AddFieldMenu = ({
   handleClose,
   anchorEl,
 }: AddFieldMenuProps) => {
-  // object mapping field type to icon and color
-  const FieldTypeOptions: Record<FieldTypes, FieldTypeOption> = {
-    short_text: {
-      icon: <ShortText />,
-      color: 'primary.main',
-    },
-    long_text: {
-      icon: <Subject />,
-      color: 'secondary.main',
-    },
-    number: {
-      icon: <LocalPhone />,
-      color: 'warning.main',
-    },
-    yes_no: {
-      icon: <RadioButtonChecked />,
-      color: 'success.main',
-    },
-    multiple_choice: {
-      icon: <Check />,
-      color: 'success.main',
-    },
-    email: {
-      icon: <Email />,
-      color: 'error.main',
-    },
-    dropdown: {
-      icon: <ExpandMore />,
-      color: 'info.main',
-    },
-  };
-
   return (
     <StyledMenu
       open={isOpen}
-      onClose={handleClose}
+      onClose={() => handleClose()}
       anchorEl={anchorEl}
       id="add-field-menu"
       MenuListProps={{
         'aria-labelledby': 'add-field-menu',
       }}
     >
-      {menuItems.map(({label, value}) => {
+      {menuItems.map(({type, value}) => {
         return (
-          <MenuItem key={label} onClick={handleClose} disableRipple>
-            {FieldTypeOptions[label].icon}
+          <MenuItem key={type} onClick={() => handleClose(type)} disableRipple>
+            {FieldTypeOptions[type].icon}
             {value}
           </MenuItem>
         );

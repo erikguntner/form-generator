@@ -4,14 +4,22 @@ import {useState} from 'react';
 
 import {Tooltip} from '../Common';
 import {AddFieldMenu} from './AddFieldMenu';
+import {FieldTypes} from './constants';
 
-export const AddFieldButton = () => {
+interface AddFieldButtonProps {
+  addField: (field: FieldTypes) => void;
+}
+
+export const AddFieldButton = ({addField}: AddFieldButtonProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (type?: FieldTypes) => {
+    if (type) {
+      addField(type);
+    }
     setAnchorEl(null);
   };
 

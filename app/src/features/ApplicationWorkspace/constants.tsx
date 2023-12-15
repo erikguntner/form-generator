@@ -1,3 +1,13 @@
+import {
+  Check,
+  Email,
+  ExpandMore,
+  LocalPhone,
+  RadioButtonChecked,
+  ShortText,
+  Subject,
+} from '@mui/icons-material';
+
 export type FieldTypes =
   | 'short_text'
   | 'long_text'
@@ -7,28 +17,34 @@ export type FieldTypes =
   | 'multiple_choice'
   | 'yes_no';
 
-interface BaseProperties {
-  description?: string;
-}
-
-interface BaseValidations {
-  required: boolean;
-}
-
-interface BaseField {
+export interface Field {
   id: string;
   title: string;
   type: FieldTypes;
-  properties: BaseProperties;
-  validations: BaseValidations;
 }
 
-export interface ShortTextField extends BaseField {
-  validations: {
-    required: boolean;
-    max_length?: number;
-  };
-}
+// interface BaseProperties {
+//   description?: string;
+// }
+
+// interface BaseValidations {
+//   required: boolean;
+// }
+
+// interface BaseField {
+//   id: string;
+//   title: string;
+//   type: FieldTypes;
+//   properties: BaseProperties;
+//   validations: BaseValidations;
+// }
+
+// export interface ShortTextField extends BaseField {
+//   validations: {
+//     required: boolean;
+//     max_length?: number;
+//   };
+// }
 
 export const fields = {
   fields: [
@@ -134,4 +150,40 @@ export const fields = {
       type: 'yes_no',
     },
   ],
+};
+
+interface FieldTypeOption {
+  icon: React.ReactNode;
+  color: string;
+}
+
+export const FieldTypeOptions: Record<FieldTypes, FieldTypeOption> = {
+  short_text: {
+    icon: <ShortText />,
+    color: 'primary.main',
+  },
+  long_text: {
+    icon: <Subject />,
+    color: 'secondary.main',
+  },
+  number: {
+    icon: <LocalPhone />,
+    color: 'warning.main',
+  },
+  yes_no: {
+    icon: <RadioButtonChecked />,
+    color: 'success.main',
+  },
+  multiple_choice: {
+    icon: <Check />,
+    color: 'success.main',
+  },
+  email: {
+    icon: <Email />,
+    color: 'error.main',
+  },
+  dropdown: {
+    icon: <ExpandMore />,
+    color: 'info.main',
+  },
 };
