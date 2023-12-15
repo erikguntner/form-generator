@@ -4,9 +4,7 @@ import {Button, Stack, Typography} from '@mui/material';
 import {Tooltip} from '../Common';
 import {PanelContainer} from './PanelContainer';
 
-interface LeftPanelProps {}
-
-export const LeftPanel = ({}: LeftPanelProps) => {
+export const LeftPanel = () => {
   return (
     <PanelContainer side="left">
       <Stack
