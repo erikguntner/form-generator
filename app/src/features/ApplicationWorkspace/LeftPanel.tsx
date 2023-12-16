@@ -4,9 +4,9 @@ import {MouseEvent as ReactMouseEvent} from 'react';
 
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {AddFieldButton} from './AddFieldButton';
-import {FieldTypes} from './constants';
 import {FieldList} from './FieldList';
 import {PanelContainer} from './PanelContainer';
+import {FieldTypes} from './workspaceSlice';
 import {addField, Field, setSelectedId} from './workspaceSlice';
 
 export const LeftPanel = () => {
@@ -25,6 +25,7 @@ export const LeftPanel = () => {
     const newField: Field = {
       id: faker.string.uuid(),
       type: fieldType,
+      description: '',
       title: '',
     };
 

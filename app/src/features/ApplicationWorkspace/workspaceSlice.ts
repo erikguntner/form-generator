@@ -1,17 +1,30 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-export type FieldTypes =
-  | 'short_text'
-  | 'long_text'
-  | 'number'
-  | 'email'
-  | 'dropdown'
-  | 'multiple_choice'
-  | 'yes_no';
+export const fieldTypes = [
+  'short_text',
+  'long_text',
+  'number',
+  'email',
+  'dropdown',
+  'multiple_choice',
+  'yes_no',
+] as const;
+
+type FieldTypeTuple = typeof fieldTypes;
+
+export type FieldTypes = FieldTypeTuple[number];
 
 export interface Field {
   id: string;
   title: string;
+  description: string;
+  type: FieldTypes;
+}
+
+export interface Field {
+  id: string;
+  title: string;
+  description: string;
   type: FieldTypes;
 }
 

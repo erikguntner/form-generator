@@ -48,7 +48,7 @@ export const CenterWindow = () => {
                 html={selectedField.title}
               />
             </Typography>
-            {/* <Typography variant="body1">
+            <Typography variant="body1">
               <StyledContentEditable
                 onChange={event =>
                   handleOnInput({
@@ -58,19 +58,9 @@ export const CenterWindow = () => {
                 contentEditable
                 data-placeholder="Write a desecription (optional)"
                 suppressContentEditableWarning
-                html={selectedField.title}
+                html={selectedField.description}
               />
-            </Typography> */}
-
-            {/* <StyledEditableText
-              onInput={handleOnInput}
-              contentEditable
-              variant="h5"
-              data-placeholder="Write your question here"
-              suppressContentEditableWarning
-            >
-              {selectedField.title}
-            </StyledEditableText> */}
+            </Typography>
           </Stack>
         )}
       </StyledWindow>

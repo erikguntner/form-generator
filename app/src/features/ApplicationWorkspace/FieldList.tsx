@@ -7,8 +7,8 @@ import {
 } from '@mui/material';
 import {MouseEvent as ReactMouseEvent} from 'react';
 
-import {Field} from './constants';
 import {FieldIcons} from './FieldIcons';
+import {Field} from './workspaceSlice';
 
 interface FieldListProps {
   fields: Field[];

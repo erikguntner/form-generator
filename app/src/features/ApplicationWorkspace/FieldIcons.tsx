@@ -8,7 +8,7 @@ import {
   Subject,
 } from '@mui/icons-material';
 
-import {FieldTypes} from './constants';
+import {FieldTypes} from './workspaceSlice';
 
 interface FieldTypeOption {
   icon: React.ReactNode;
