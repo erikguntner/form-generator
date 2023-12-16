@@ -1,6 +1,7 @@
 import {CircularProgress, Stack, Typography} from '@mui/material';
 import {useParams} from 'react-router-dom';
 
+import {CenterWindow} from '../features/ApplicationWorkspace/CenterWindow';
 import {LeftPanel} from '../features/ApplicationWorkspace/LeftPanel';
 import {useGetApplicationByApplicationIdQuery} from '../services/generatedApi';
 
@@ -39,19 +40,7 @@ export const ApplicationWorkspace = () => {
       ) : (
         <>
           <LeftPanel />
-          <Stack sx={{flex: 1, py: 10, px: 2}}>
-            <Stack
-              sx={{
-                height: '100%',
-                width: '100%',
-                aspectRatio: 'auto',
-                backgroundColor: 'background.default',
-                borderRadius: 2,
-                boxShadow:
-                  'rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.06) 0px 2px 12px;',
-              }}
-            ></Stack>
-          </Stack>
+          <CenterWindow />
           <Stack
             sx={{
               p: 2,
