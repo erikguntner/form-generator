@@ -1,33 +1,35 @@
 import {faker} from '@faker-js/faker';
 import {Stack, Typography} from '@mui/material';
-import {MouseEvent as ReactMouseEvent, useState} from 'react';
+import {MouseEvent as ReactMouseEvent} from 'react';
 
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {AddFieldButton} from './AddFieldButton';
-import {Field, FieldTypes} from './constants';
+import {FieldTypes} from './constants';
 import {FieldList} from './FieldList';
 import {PanelContainer} from './PanelContainer';
+import {addField, Field, setSelectedId} from './workspaceSlice';
 
 export const LeftPanel = () => {
-  const [fields, setFields] = useState<Field[]>([]);
-  const [selectedId, setSelectedId] = useState<null | string>(null);
+  const fields = useAppSelector(state => state.workspace.fields);
+  const selectedId = useAppSelector(state => state.workspace.selectedId);
+  const dispatch = useAppDispatch();
 
   const handleListItemClick = (
     event: ReactMouseEvent<HTMLDivElement, MouseEvent>,
     id: string
   ) => {
-    setSelectedId(id);
+    dispatch(setSelectedId(id));
   };
 
-  const addField = (fieldType: FieldTypes) => {
-    const newField = {
+  const addFields = (fieldType: FieldTypes) => {
+    const newField: Field = {
       id: faker.string.uuid(),
       type: fieldType,
       title: '...',
     };
 
-    setFields(prevFields => [...prevFields, newField]);
-
-    setSelectedId(newField.id);
+    dispatch(addField(newField));
+    dispatch(setSelectedId(newField.id));
   };
 
   return (
@@ -41,7 +43,7 @@ export const LeftPanel = () => {
         <Typography variant="subtitle1" fontWeight="500">
           Content
         </Typography>
-        <AddFieldButton addField={addField} />
+        <AddFieldButton addField={addFields} />
       </Stack>
       <FieldList
         fields={fields}
