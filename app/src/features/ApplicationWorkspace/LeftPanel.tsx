@@ -25,7 +25,7 @@ export const LeftPanel = () => {
     const newField: Field = {
       id: faker.string.uuid(),
       type: fieldType,
-      title: '...',
+      title: '',
     };
 
     dispatch(addField(newField));

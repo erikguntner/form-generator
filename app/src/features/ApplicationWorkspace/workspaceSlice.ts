@@ -35,9 +35,15 @@ const workspaceSlice = createSlice({
     addField: (state, action: PayloadAction<Field>) => {
       state.fields.push(action.payload);
     },
+    editField: (state, action: PayloadAction<Partial<Field>>) => {
+      const {id, ...field} = action.payload;
+      const index = state.fields.findIndex(field => field.id === id);
+      const currField = state.fields[index];
+      state.fields[index] = {...currField, ...field};
+    },
   },
 });
 
 const {actions, reducer} = workspaceSlice;
-export const {setSelectedId, addField} = actions;
+export const {setSelectedId, addField, editField} = actions;
 export default reducer;

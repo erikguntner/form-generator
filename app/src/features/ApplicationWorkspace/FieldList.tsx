@@ -26,22 +26,25 @@ export const FieldList = ({
 }: FieldListProps) => {
   return (
     <List sx={{px: 1}} aria-label="list of fields">
-      {fields.map(({id, type, title}) => (
-        <ListItem key={id} disableGutters disablePadding>
-          <ListItemButton
-            sx={{borderRadius: '8px'}}
-            aria-selected={selectedId === id}
-            selected={selectedId === id}
-            onClick={event => handleListItemClick(event, id)}
-            disableRipple
-          >
-            <ListItemIcon sx={{color: 'text.primary'}}>
-              {FieldIcons[type].icon}
-            </ListItemIcon>
-            <ListItemText primary={title} />
-          </ListItemButton>
-        </ListItem>
-      ))}
+      {fields.map(({id, type, title}) => {
+        const fieldTitle = title || '...';
+        return (
+          <ListItem key={id} disableGutters disablePadding>
+            <ListItemButton
+              sx={{borderRadius: '8px'}}
+              aria-selected={selectedId === id}
+              selected={selectedId === id}
+              onClick={event => handleListItemClick(event, id)}
+              disableRipple
+            >
+              <ListItemIcon sx={{color: 'text.primary'}}>
+                {FieldIcons[type].icon}
+              </ListItemIcon>
+              <ListItemText primary={fieldTitle} />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
     </List>
   );
 };
