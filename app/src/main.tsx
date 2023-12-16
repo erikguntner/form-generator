@@ -7,11 +7,9 @@ import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
-import {setupStore} from './redux/store.ts';
+import {store} from './redux/store.ts';
 import theme from './utils/theme.tsx';
 import {App, ApplicationWorkspace} from './views';
-
-const store = setupStore();
 
 export const router = createBrowserRouter([
   {

@@ -1,21 +1,25 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {configureStore, ConfigureStoreOptions} from '@reduxjs/toolkit';
 
+import workspace from '../features/ApplicationWorkspace/workspaceSlice';
 import {emptySplitApi} from '../services/emptyApi';
 
-const rootReducer = combineReducers({
-  [emptySplitApi.reducerPath]: emptySplitApi.reducer,
-});
-
-export const setupStore = (preloadedState?: Partial<RootState>) => {
+export const setupStore = (
+  options?: ConfigureStoreOptions['preloadedState'] | undefined
+) => {
   return configureStore({
-    reducer: rootReducer,
-    preloadedState,
+    reducer: {
+      [emptySplitApi.reducerPath]: emptySplitApi.reducer,
+      workspace,
+    },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware().concat(emptySplitApi.middleware),
     devTools: process.env.NODE_ENV !== 'production',
+    ...options,
   });
 };
 
-export type RootState = ReturnType<typeof rootReducer>;
+export const store = setupStore();
+
+export type RootState = ReturnType<typeof store.getState>;
 export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = AppStore['dispatch'];
