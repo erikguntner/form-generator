@@ -21,7 +21,7 @@ const customRender = (
   {
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
-    store = setupStore(preloadedState),
+    store = setupStore({preloadedState}),
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) => {

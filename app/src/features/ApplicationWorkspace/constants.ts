@@ -1,34 +1,53 @@
-type FieldTypes =
-  | 'short_text'
-  | 'long_text'
-  | 'number'
-  | 'email'
-  | 'dropdown'
-  | 'multiple_choice'
-  | 'yes_no';
+import {faker} from '@faker-js/faker';
 
-interface BaseProperties {
-  description?: string;
-}
+const fieldTypes = [
+  'short_text',
+  'long_text',
+  'number',
+  'email',
+  'dropdown',
+  'multiple_choice',
+  'yes_no',
+] as const;
 
-interface BaseValidations {
-  required: boolean;
-}
+type FieldTypeTuple = typeof fieldTypes;
 
-interface BaseField {
+export type FieldTypes = FieldTypeTuple[number];
+
+export interface Field {
   id: string;
   title: string;
   type: FieldTypes;
-  properties: BaseProperties;
-  validations: BaseValidations;
 }
 
-export interface ShortTextField extends BaseField {
-  validations: {
-    required: boolean;
-    max_length?: number;
-  };
-}
+export const fieldBuilder = () => ({
+  id: faker.string.numeric(4),
+  title: faker.lorem.sentence(),
+  type: faker.helpers.arrayElement(fieldTypes),
+});
+
+// interface BaseProperties {
+//   description?: string;
+// }
+
+// interface BaseValidations {
+//   required: boolean;
+// }
+
+// interface BaseField {
+//   id: string;
+//   title: string;
+//   type: FieldTypes;
+//   properties: BaseProperties;
+//   validations: BaseValidations;
+// }
+
+// export interface ShortTextField extends BaseField {
+//   validations: {
+//     required: boolean;
+//     max_length?: number;
+//   };
+// }
 
 export const fields = {
   fields: [
