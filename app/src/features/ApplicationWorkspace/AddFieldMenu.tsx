@@ -9,7 +9,7 @@ interface Field {
   value: string;
 }
 
-const menuItems: Field[] = [
+export const menuItems: Field[] = [
   {
     type: 'short_text',
     value: 'Short text',

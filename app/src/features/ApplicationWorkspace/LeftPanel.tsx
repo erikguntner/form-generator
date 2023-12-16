@@ -14,7 +14,7 @@ export const LeftPanel = () => {
   const selectedId = useAppSelector(state => state.workspace.selectedId);
   const dispatch = useAppDispatch();
 
-  const handleListItemClick = (
+  const selectFieldById = (
     event: ReactMouseEvent<HTMLDivElement, MouseEvent>,
     id: string
   ) => {
@@ -47,7 +47,7 @@ export const LeftPanel = () => {
       </Stack>
       <FieldList
         fields={fields}
-        handleListItemClick={handleListItemClick}
+        handleListItemClick={selectFieldById}
         selectedId={selectedId}
       />
     </PanelContainer>

@@ -1,17 +1,30 @@
-export type FieldTypes =
-  | 'short_text'
-  | 'long_text'
-  | 'number'
-  | 'email'
-  | 'dropdown'
-  | 'multiple_choice'
-  | 'yes_no';
+import {faker} from '@faker-js/faker';
+
+const fieldTypes = [
+  'short_text',
+  'long_text',
+  'number',
+  'email',
+  'dropdown',
+  'multiple_choice',
+  'yes_no',
+] as const;
+
+type FieldTypeTuple = typeof fieldTypes;
+
+export type FieldTypes = FieldTypeTuple[number];
 
 export interface Field {
   id: string;
   title: string;
   type: FieldTypes;
 }
+
+export const fieldBuilder = () => ({
+  id: faker.string.numeric(4),
+  title: faker.lorem.sentence(),
+  type: faker.helpers.arrayElement(fieldTypes),
+});
 
 // interface BaseProperties {
 //   description?: string;
