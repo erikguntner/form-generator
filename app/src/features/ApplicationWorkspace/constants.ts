@@ -1,12 +1,13 @@
 import {faker} from '@faker-js/faker';
 
-import {fieldTypes} from './workspaceSlice';
+import {Field, fieldTypes} from './workspaceSlice';
 
-export const fieldBuilder = () => ({
+export const fieldBuilder = (options: Partial<Field>) => ({
   id: faker.string.numeric(4),
   title: faker.lorem.sentence(),
   description: faker.lorem.sentence(),
   type: faker.helpers.arrayElement(fieldTypes),
+  ...options,
 });
 
 // interface BaseProperties {

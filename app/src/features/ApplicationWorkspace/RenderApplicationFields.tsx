@@ -17,7 +17,7 @@ export const RenderFields = ({field}: RenderFieldsProps) => {
     case 'long_text':
       return <LongTextField disabled />;
     case 'number':
-      return <PhoneNumberField disabled />;
+      return <PhoneNumberField />;
     case 'email':
       return <EmailField disabled />;
     default:

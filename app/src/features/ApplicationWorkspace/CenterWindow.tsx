@@ -74,7 +74,7 @@ const StyledWindow = styled(Stack)(({theme}) => ({
   width: '100%',
   aspectRatio: 'auto',
   backgroundColor: theme.palette.background.default,
-  borderRadius: 2,
+  borderRadius: 4,
   boxShadow:
     'rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.06) 0px 2px 12px;',
 }));
