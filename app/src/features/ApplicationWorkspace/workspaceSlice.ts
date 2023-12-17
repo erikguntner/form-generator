@@ -21,13 +21,6 @@ export interface Field {
   type: FieldTypes;
 }
 
-export interface Field {
-  id: string;
-  title: string;
-  description: string;
-  type: FieldTypes;
-}
-
 interface WorkspaceState {
   selectedId: string | null;
   fields: Field[];
