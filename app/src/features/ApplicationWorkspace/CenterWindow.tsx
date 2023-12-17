@@ -1,4 +1,4 @@
-import {Stack, styled, Typography} from '@mui/material';
+import {Container, Stack, styled, TextField, Typography} from '@mui/material';
 import ContentEdidable from 'react-contenteditable';
 
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
@@ -36,32 +36,32 @@ export const CenterWindow = () => {
             </Typography>
           </Stack>
         ) : (
-          <Stack>
-            <Typography variant="h5">
-              <StyledContentEditable
-                onChange={event =>
-                  handleOnInput({title: event.currentTarget.textContent})
-                }
-                contentEditable
-                data-placeholder="Write your question here"
-                suppressContentEditableWarning
-                html={selectedField.title}
-              />
-            </Typography>
-            <Typography variant="body1">
-              <StyledContentEditable
-                onChange={event =>
-                  handleOnInput({
-                    description: event.currentTarget.textContent,
-                  })
-                }
-                contentEditable
-                data-placeholder="Write a desecription (optional)"
-                suppressContentEditableWarning
-                html={selectedField.description}
-              />
-            </Typography>
-          </Stack>
+          <Container sx={{height: '100%'}} maxWidth="sm">
+            <Stack sx={{height: '100%'}} justifyContent={'center'} gap={3}>
+              <Stack>
+                <Typography variant="h5">
+                  <StyledContentEditable
+                    onChange={event =>
+                      handleOnInput({title: event.currentTarget.textContent})
+                    }
+                    data-placeholder="Write your question here"
+                    html={selectedField.title}
+                  />
+                </Typography>
+                <StyledContentEditable
+                  sx={{color: 'text.secondary'}}
+                  onChange={event =>
+                    handleOnInput({
+                      description: event.currentTarget.textContent,
+                    })
+                  }
+                  data-placeholder="Write a desecription (optional)"
+                  html={`${selectedField.description}`}
+                />
+              </Stack>
+              <TextField id="outlined" label="Outlined" variant="outlined" />
+            </Stack>
+          </Container>
         )}
       </StyledWindow>
     </Stack>

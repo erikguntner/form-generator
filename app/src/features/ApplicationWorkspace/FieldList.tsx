@@ -31,16 +31,16 @@ export const FieldList = ({
         return (
           <ListItem key={id} disableGutters disablePadding>
             <ListItemButton
-              sx={{borderRadius: '8px'}}
+              sx={{borderRadius: '8px', gap: 2}}
               aria-selected={selectedId === id}
               selected={selectedId === id}
               onClick={event => handleListItemClick(event, id)}
               disableRipple
             >
-              <ListItemIcon sx={{color: 'text.primary'}}>
+              <ListItemIcon sx={{color: 'text.primary', minWidth: 'auto'}}>
                 {FieldIcons[type].icon}
               </ListItemIcon>
-              <ListItemText primary={fieldTitle} />
+              <ListItemText sx={{textWrap: 'wrap'}} primary={fieldTitle} />
             </ListItemButton>
           </ListItem>
         );
