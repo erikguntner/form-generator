@@ -1,7 +1,8 @@
-import {Container, Stack, styled, TextField, Typography} from '@mui/material';
+import {Container, Stack, styled, Typography} from '@mui/material';
 import ContentEdidable from 'react-contenteditable';
 
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {RenderFields} from './RenderApplicationFields';
 import {editField, Field} from './workspaceSlice';
 
 export const CenterWindow = () => {
@@ -10,7 +11,7 @@ export const CenterWindow = () => {
     workspace.fields.find(field => field.id === workspace.selectedId)
   );
 
-  const handleOnInput = (options: Partial<Field>) => {
+  const handleOnChange = (options: Partial<Field>) => {
     dispatch(
       editField({
         id: selectedField?.id,
@@ -42,7 +43,7 @@ export const CenterWindow = () => {
                 <Typography variant="h5">
                   <StyledContentEditable
                     onChange={event =>
-                      handleOnInput({title: event.currentTarget.textContent})
+                      handleOnChange({title: event.currentTarget.textContent})
                     }
                     data-placeholder="Write your question here"
                     html={selectedField.title}
@@ -51,7 +52,7 @@ export const CenterWindow = () => {
                 <StyledContentEditable
                   sx={{color: 'text.secondary'}}
                   onChange={event =>
-                    handleOnInput({
+                    handleOnChange({
                       description: event.currentTarget.textContent,
                     })
                   }
@@ -59,7 +60,7 @@ export const CenterWindow = () => {
                   html={`${selectedField.description}`}
                 />
               </Stack>
-              <TextField id="outlined" label="Outlined" variant="outlined" />
+              <RenderFields field={selectedField} />
             </Stack>
           </Container>
         )}
