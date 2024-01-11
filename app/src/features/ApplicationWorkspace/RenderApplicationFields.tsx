@@ -4,10 +4,10 @@ import {
   PhoneNumberField,
   ShortTextField,
 } from './ApplicationFields';
-import {Field} from './workspaceSlice';
+import {Fields} from './workspaceSlice';
 
 interface RenderFieldsProps {
-  field: Field;
+  field: Fields;
 }
 
 export const RenderFields = ({field}: RenderFieldsProps) => {

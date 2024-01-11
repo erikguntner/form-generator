@@ -8,10 +8,10 @@ import {
 import {MouseEvent as ReactMouseEvent} from 'react';
 
 import {FieldIcons} from './FieldIcons';
-import {Field} from './workspaceSlice';
+import {Fields} from './workspaceSlice';
 
 interface FieldListProps {
-  fields: Field[];
+  fields: Fields[];
   handleListItemClick: (
     event: ReactMouseEvent<HTMLDivElement, MouseEvent>,
     id: string

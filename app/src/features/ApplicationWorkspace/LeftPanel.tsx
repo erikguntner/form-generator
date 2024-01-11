@@ -7,7 +7,7 @@ import {AddFieldButton} from './AddFieldButton';
 import {FieldList} from './FieldList';
 import {PanelContainer} from './PanelContainer';
 import {FieldTypes} from './workspaceSlice';
-import {addField, Field, setSelectedId} from './workspaceSlice';
+import {addField, Fields, setSelectedId} from './workspaceSlice';
 
 export const LeftPanel = () => {
   const fields = useAppSelector(state => state.workspace.fields);
@@ -22,11 +22,14 @@ export const LeftPanel = () => {
   };
 
   const addFields = (fieldType: FieldTypes) => {
-    const newField: Field = {
+    const newField: Fields = {
       id: faker.string.uuid(),
       type: fieldType,
-      description: '',
       title: '',
+      properties: {
+        description: '',
+      },
+      validations: {},
     };
 
     dispatch(addField(newField));
