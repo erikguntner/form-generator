@@ -39,6 +39,7 @@ export type PostApplicationApiArg = {
     name: string;
   };
 };
+
 export type GetApplicationByApplicationIdApiResponse =
   /** status 200 application response */ {
     id: string;

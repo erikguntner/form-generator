@@ -1,53 +1,19 @@
 import {faker} from '@faker-js/faker';
 
-const fieldTypes = [
-  'short_text',
-  'long_text',
-  'number',
-  'email',
-  'dropdown',
-  'multiple_choice',
-  'yes_no',
-] as const;
+import {Fields, fieldTypes} from './workspaceSlice';
 
-type FieldTypeTuple = typeof fieldTypes;
-
-export type FieldTypes = FieldTypeTuple[number];
-
-export interface Field {
-  id: string;
-  title: string;
-  type: FieldTypes;
-}
-
-export const fieldBuilder = () => ({
+export const fieldBuilder = (options: Partial<Fields> = {}): Fields => ({
   id: faker.string.numeric(4),
-  title: faker.lorem.sentence(),
+  title: faker.lorem.sentence({min: 5, max: 10}),
   type: faker.helpers.arrayElement(fieldTypes),
+  ...options,
+  properties: {
+    ...options.properties,
+  },
+  validations: {
+    ...options.validations,
+  },
 });
-
-// interface BaseProperties {
-//   description?: string;
-// }
-
-// interface BaseValidations {
-//   required: boolean;
-// }
-
-// interface BaseField {
-//   id: string;
-//   title: string;
-//   type: FieldTypes;
-//   properties: BaseProperties;
-//   validations: BaseValidations;
-// }
-
-// export interface ShortTextField extends BaseField {
-//   validations: {
-//     required: boolean;
-//     max_length?: number;
-//   };
-// }
 
 export const fields = {
   fields: [
