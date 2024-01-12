@@ -122,7 +122,7 @@ const EditChoicesDialog = ({
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open}>
+    <Dialog fullWidth maxWidth="sm" open={open}>
       <DialogTitle>Edit Choices</DialogTitle>
       <DialogContent>
         <DialogContentText>
