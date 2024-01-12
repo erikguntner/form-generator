@@ -62,13 +62,16 @@ export const MultipleChoiceField = ({}: MultipleChoiceFieldProps) => {
                 autoFocus
                 onChange={event => handleOnChange(event, selectedField.id, id)}
               />
-              <StyledIconButton
-                onClick={() => handleDeleteChoice(selectedField.id, id)}
-                size="small"
-                aria-label="delete"
-              >
-                <ClearIcon fontSize="inherit" />
-              </StyledIconButton>
+              {selectedField.properties.choices?.length &&
+              selectedField.properties.choices?.length > 1 ? (
+                <StyledIconButton
+                  onClick={() => handleDeleteChoice(selectedField.id, id)}
+                  size="small"
+                  aria-label="delete"
+                >
+                  <ClearIcon fontSize="inherit" />
+                </StyledIconButton>
+              ) : null}
             </ListItem>
           );
         })}
