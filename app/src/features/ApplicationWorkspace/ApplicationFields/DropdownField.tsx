@@ -63,8 +63,6 @@ export const DropdownField = () => {
     handleClose();
   };
 
-  console.log(selectedField?.properties?.choices || []);
-
   return (
     <Fragment>
       <Stack gap={2} alignItems="start">
