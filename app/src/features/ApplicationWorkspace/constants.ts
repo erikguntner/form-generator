@@ -1,6 +1,44 @@
 import {faker} from '@faker-js/faker';
 
-import {Fields, fieldTypes} from './workspaceSlice';
+import {Fields, FieldTypes, fieldTypes} from './workspaceSlice';
+
+interface Field {
+  type: FieldTypes;
+  value: string;
+}
+
+export const menuItems: Field[] = [
+  {
+    type: 'short_text',
+    value: 'Short text',
+  },
+  {
+    type: 'long_text',
+    value: 'Long text',
+  },
+  {
+    type: 'number',
+    value: 'Phone Number',
+  },
+
+  {
+    type: 'yes_no',
+    value: 'Yes or No',
+  },
+  {
+    type: 'multiple_choice',
+    value: 'Multiple Choice',
+  },
+
+  {
+    type: 'email',
+    value: 'Email',
+  },
+  {
+    type: 'dropdown',
+    value: 'Dropdown',
+  },
+];
 
 export const fieldBuilder = (options: Partial<Fields> = {}): Fields => ({
   id: faker.string.numeric(4),

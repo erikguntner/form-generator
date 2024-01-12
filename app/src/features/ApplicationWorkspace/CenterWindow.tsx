@@ -20,8 +20,6 @@ export const CenterWindow = () => {
     );
   };
 
-  console.log(selectedField?.properties.description);
-
   return (
     <Stack sx={{flex: 1, py: 10, px: 2}}>
       <StyledWindow>

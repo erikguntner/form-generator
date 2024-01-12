@@ -32,6 +32,10 @@ export const LeftPanel = () => {
       validations: {},
     };
 
+    if (fieldType === 'dropdown' || fieldType === 'multiple_choice') {
+      newField.properties.choices = [];
+    }
+
     dispatch(addField(newField));
     dispatch(setSelectedId(newField.id));
   };
