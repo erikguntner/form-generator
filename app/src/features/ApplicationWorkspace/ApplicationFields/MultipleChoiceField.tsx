@@ -13,9 +13,7 @@ import {styled} from '@mui/material/styles';
 import {useAppDispatch, useAppSelector} from '../../../redux/hooks';
 import {addChoice, deleteChoice, updateChoice} from '../workspaceSlice';
 
-interface MultipleChoiceFieldProps {}
-
-export const MultipleChoiceField = ({}: MultipleChoiceFieldProps) => {
+export const MultipleChoiceField = () => {
   const dispatch = useAppDispatch();
   const selectedField = useAppSelector(({workspace}) =>
     workspace.fields.find(field => field.id === workspace.selectedId)

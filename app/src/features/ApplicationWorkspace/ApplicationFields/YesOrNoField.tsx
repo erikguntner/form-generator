@@ -1,8 +1,6 @@
 import {FormControl, FormControlLabel, Radio, RadioGroup} from '@mui/material';
 
-interface YesOrNoFieldProps {}
-
-export const YesOrNoField = ({}: YesOrNoFieldProps) => {
+export const YesOrNoField = () => {
   return (
     <FormControl>
       <RadioGroup row aria-labelledby="yes-no-field" name="yes-no-field">
