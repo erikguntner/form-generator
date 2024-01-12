@@ -2,6 +2,7 @@ import {
   DropdownField,
   EmailField,
   LongTextField,
+  MultipleChoiceField,
   PhoneNumberField,
   ShortTextField,
   YesOrNoField,
@@ -26,6 +27,8 @@ export const RenderFields = ({field}: RenderFieldsProps) => {
       return <YesOrNoField />;
     case 'dropdown':
       return <DropdownField />;
+    case 'multiple_choice':
+      return <MultipleChoiceField />;
     default:
       throw new Error('Invalid field type');
   }
