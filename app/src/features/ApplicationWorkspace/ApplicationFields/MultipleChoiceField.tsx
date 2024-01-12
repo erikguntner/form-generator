@@ -46,7 +46,7 @@ export const MultipleChoiceField = ({}: MultipleChoiceFieldProps) => {
   };
 
   return (
-    <Stack gap={2} alignItems="start">
+    <Stack gap={1} alignItems="start">
       <List disablePadding>
         {selectedField?.properties.choices?.map(({id, label}, index) => {
           return (
@@ -59,6 +59,7 @@ export const MultipleChoiceField = ({}: MultipleChoiceFieldProps) => {
                 placeholder="Type choice"
                 value={label}
                 multiline
+                autoFocus
                 onChange={event => handleOnChange(event, selectedField.id, id)}
               />
               <StyledIconButton
@@ -72,9 +73,7 @@ export const MultipleChoiceField = ({}: MultipleChoiceFieldProps) => {
           );
         })}
       </List>
-      <Button variant="outlined" onClick={addNewChoice}>
-        Add Choice
-      </Button>
+      <Button onClick={addNewChoice}>Add Choice</Button>
     </Stack>
   );
 };
@@ -94,6 +93,8 @@ const StyledIconButton = styled(IconButton)(({theme}) => ({
 const StyledTextField = styled(TextField)(({theme}) => ({
   '& .MuiOutlinedInput-root': {
     paddingLeft: theme.spacing(6),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
 }));
 
@@ -108,4 +109,5 @@ const StyledListNumber = styled(Box)(({theme}) => ({
   lineHeight: 1,
   borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.grey[100],
+  fontSize: 12,
 }));
