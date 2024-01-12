@@ -32,8 +32,25 @@ export const LeftPanel = () => {
       validations: {},
     };
 
-    if (fieldType === 'dropdown' || fieldType === 'multiple_choice') {
+    if (fieldType === 'dropdown') {
       newField.properties.choices = [];
+    }
+
+    if (fieldType === 'multiple_choice') {
+      newField.properties.choices = [
+        {
+          id: faker.string.uuid(),
+          label: 'choice 1',
+        },
+        {
+          id: faker.string.uuid(),
+          label: 'choice 2',
+        },
+        {
+          id: faker.string.uuid(),
+          label: 'choice 3',
+        },
+      ];
     }
 
     dispatch(addField(newField));

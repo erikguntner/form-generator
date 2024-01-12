@@ -1,3 +1,4 @@
+import {faker} from '@faker-js/faker';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 // Types of Fields
@@ -158,6 +159,37 @@ const workspaceSlice = createSlice({
     addField: (state, action: PayloadAction<Fields>) => {
       state.fields.push(action.payload);
     },
+    addChoice: (state, action: PayloadAction<{id: string}>) => {
+      const {id} = action.payload;
+      const choice = {
+        id: faker.string.uuid(),
+        label: '',
+      };
+      const index = state.fields.findIndex(field => field.id === id);
+      state.fields[index].properties.choices?.push(choice);
+    },
+    updateChoice: (
+      state,
+      action: PayloadAction<{id: string; choiceId: string; label: string}>
+    ) => {
+      const {id, choiceId, label} = action.payload;
+      const index = state.fields.findIndex(field => field.id === id);
+      const choiceIndex = state.fields[index].properties.choices?.findIndex(
+        choice => choice.id === choiceId
+      );
+      state.fields[index].properties.choices![choiceIndex!].label = label;
+    },
+    deleteChoice: (
+      state,
+      action: PayloadAction<{id: string; choiceId: string}>
+    ) => {
+      const {id, choiceId} = action.payload;
+      const index = state.fields.findIndex(field => field.id === id);
+      const choiceIndex = state.fields[index].properties.choices?.findIndex(
+        choice => choice.id === choiceId
+      );
+      state.fields[index].properties.choices?.splice(choiceIndex!, 1);
+    },
     editField: (state, action: PayloadAction<Partial<Fields>>) => {
       const {id} = action.payload;
       const index = state.fields.findIndex(field => field.id === id);
@@ -186,5 +218,12 @@ const workspaceSlice = createSlice({
 });
 
 const {actions, reducer} = workspaceSlice;
-export const {setSelectedId, addField, editField} = actions;
+export const {
+  setSelectedId,
+  addField,
+  editField,
+  addChoice,
+  updateChoice,
+  deleteChoice,
+} = actions;
 export default reducer;

@@ -1,4 +1,3 @@
-import {faker} from '@faker-js/faker';
 import ClearIcon from '@mui/icons-material/Clear';
 import {
   Box,
@@ -10,27 +9,46 @@ import {
   TextField,
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
-import {useState} from 'react';
 
-import {Choice} from '../workspaceSlice';
+import {useAppDispatch, useAppSelector} from '../../../redux/hooks';
+import {addChoice, deleteChoice, updateChoice} from '../workspaceSlice';
 
 interface MultipleChoiceFieldProps {}
 
 export const MultipleChoiceField = ({}: MultipleChoiceFieldProps) => {
-  const [choices, setChoices] = useState<Choice[]>([
-    {
-      id: faker.string.uuid(),
-      label:
-        'choice 1fasdfak;lsdfha;lskjdfhal;ksjdflkasjdf lkajsdfl;aksdj fasl;kdfj as;dlfkj asdlfj als;dfj asd;ljf asldfj asdfjaslkdfja ;sfaslkdj fal;skdfj ',
-    },
-    {id: faker.string.uuid(), label: 'choice 2'},
-    {id: faker.string.uuid(), label: 'choice 3'},
-  ]);
+  const dispatch = useAppDispatch();
+  const selectedField = useAppSelector(({workspace}) =>
+    workspace.fields.find(field => field.id === workspace.selectedId)
+  );
+
+  const handleOnChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    id: string,
+    choiceId: string
+  ) => {
+    dispatch(
+      updateChoice({
+        id,
+        choiceId,
+        label: event.currentTarget.value,
+      })
+    );
+  };
+
+  const addNewChoice = () => {
+    if (selectedField) {
+      dispatch(addChoice({id: selectedField.id}));
+    }
+  };
+
+  const handleDeleteChoice = (id: string, choiceId: string) => {
+    dispatch(deleteChoice({id, choiceId}));
+  };
 
   return (
     <Stack gap={2} alignItems="start">
       <List disablePadding>
-        {choices.map(({id, label}, index) => {
+        {selectedField?.properties.choices?.map(({id, label}, index) => {
           return (
             <ListItem disableGutters key={id}>
               <StyledListNumber>{index + 1}</StyledListNumber>
@@ -38,18 +56,25 @@ export const MultipleChoiceField = ({}: MultipleChoiceFieldProps) => {
                 fullWidth
                 id="outlined"
                 variant="outlined"
-                placeholder="Type your choice here"
+                placeholder="Type choice"
                 value={label}
                 multiline
+                onChange={event => handleOnChange(event, selectedField.id, id)}
               />
-              <StyledIconButton size="small" aria-label="delete">
+              <StyledIconButton
+                onClick={() => handleDeleteChoice(selectedField.id, id)}
+                size="small"
+                aria-label="delete"
+              >
                 <ClearIcon fontSize="inherit" />
               </StyledIconButton>
             </ListItem>
           );
         })}
       </List>
-      <Button variant="outlined">Add Choice</Button>
+      <Button variant="outlined" onClick={addNewChoice}>
+        Add Choice
+      </Button>
     </Stack>
   );
 };
