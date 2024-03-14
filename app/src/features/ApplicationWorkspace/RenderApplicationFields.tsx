@@ -10,10 +10,11 @@ import {
 import {Fields} from './workspaceSlice';
 
 interface RenderFieldsProps {
+  groupId: string;
   field: Fields;
 }
 
-export const RenderFields = ({field}: RenderFieldsProps) => {
+export const RenderFields = ({groupId, field}: RenderFieldsProps) => {
   switch (field.type) {
     case 'short_text':
       return <ShortTextField disabled />;
@@ -26,9 +27,15 @@ export const RenderFields = ({field}: RenderFieldsProps) => {
     case 'yes_no':
       return <YesOrNoField />;
     case 'dropdown':
-      return <DropdownField />;
+      return (
+        <DropdownField
+          groupId={groupId}
+          id={field.id}
+          choices={field.properties.choices || []}
+        />
+      );
     case 'multiple_choice':
-      return <MultipleChoiceField />;
+      return <MultipleChoiceField groupId={groupId} id={field.id} />;
     default:
       throw new Error('Invalid field type');
   }

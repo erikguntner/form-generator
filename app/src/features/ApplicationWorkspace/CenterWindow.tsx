@@ -48,7 +48,6 @@ export const CenterWindow = () => {
   };
 
   const handleEditField = ({id, title}: {id: string; title: string}) => {
-    console.log('editing field');
     dispatch(editField({groupId: fieldGroup.id, id, field: {title}}));
   };
 
@@ -87,8 +86,6 @@ export const CenterWindow = () => {
     dispatch(addField({id: fieldGroup.id, field}));
   };
 
-  console.log({fieldGroup});
-
   return (
     <Stack sx={{flex: 1, py: 10, px: 2}}>
       <StyledWindow>
@@ -121,7 +118,7 @@ export const CenterWindow = () => {
                       data-placeholder="Write your question here"
                       html={field.title}
                     />
-                    <RenderFields field={field} />
+                    <RenderFields groupId={fieldGroup.id} field={field} />
                   </Stack>
                 );
               })}
