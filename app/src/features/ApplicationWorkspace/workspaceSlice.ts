@@ -171,6 +171,11 @@ const workspaceSlice = createSlice({
         fields: [],
       });
     },
+    editFieldGroup: (state, action) => {
+      const {id, title} = action.payload;
+      const index = state.fieldGroups.findIndex(field => field.id === id);
+      state.fieldGroups[index].title = title;
+    },
     addField: (state, action: PayloadAction<Fields>) => {
       state.fields.push(action.payload);
     },
@@ -236,6 +241,7 @@ const {actions, reducer} = workspaceSlice;
 export const {
   setSelectedId,
   addFieldGroup,
+  editFieldGroup,
   addField,
   editField,
   addChoice,

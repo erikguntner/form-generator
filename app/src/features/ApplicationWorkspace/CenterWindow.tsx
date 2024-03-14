@@ -2,19 +2,21 @@ import {Container, Stack, styled, Typography} from '@mui/material';
 import ContentEdidable from 'react-contenteditable';
 
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {RenderFields} from './RenderApplicationFields';
-import {editField, Fields} from './workspaceSlice';
+// import {RenderFields} from './RenderApplicationFields';
+import {editFieldGroup, Fields} from './workspaceSlice';
 
 export const CenterWindow = () => {
   const dispatch = useAppDispatch();
-  const selectedField = useAppSelector(({workspace}) =>
-    workspace.fields.find(field => field.id === workspace.selectedId)
+  const selectedFieldGroup = useAppSelector(({workspace}) =>
+    workspace.fieldGroups.find(
+      fieldGroup => fieldGroup.id === workspace.selectedId
+    )
   );
 
   const handleOnChange = (options: Partial<Fields>) => {
     dispatch(
-      editField({
-        id: selectedField?.id,
+      editFieldGroup({
+        id: selectedFieldGroup?.id,
         ...options,
       })
     );
@@ -23,7 +25,7 @@ export const CenterWindow = () => {
   return (
     <Stack sx={{flex: 1, py: 10, px: 2}}>
       <StyledWindow>
-        {selectedField === undefined ? (
+        {selectedFieldGroup === undefined ? (
           <Stack
             sx={{
               justifyContent: 'center',
@@ -33,22 +35,34 @@ export const CenterWindow = () => {
             }}
           >
             <Typography variant="h5" sx={{color: 'text.secondary'}}>
-              Select a field
+              Create a new field group
             </Typography>
           </Stack>
         ) : (
           <Container sx={{height: '100%'}} maxWidth="sm">
-            <Stack sx={{height: '100%'}} justifyContent={'center'} gap={3}>
+            <Stack
+              sx={{height: '100%', paddingTop: 4}}
+              justifyContent={'start'}
+              gap={3}
+            >
               <Stack>
                 <Typography aria-labelledby="editable-title" variant="h5">
                   <StyledContentEditable
                     onChange={event =>
                       handleOnChange({title: event.currentTarget.textContent})
                     }
-                    data-placeholder="Write your question here"
-                    html={selectedField.title}
+                    data-placeholder="Write your title here"
+                    html={selectedFieldGroup.title}
                   />
                 </Typography>
+                {/* 
+                  <StyledContentEditable
+                    onChange={event =>
+                      handleOnChange({title: event.currentTarget.textContent})
+                    }
+                    data-placeholder="Write your question here"
+                    html={selectedFieldGroup.title}
+                  />
                 <StyledContentEditable
                   aria-labelledby="editable-description"
                   sx={{color: 'text.secondary'}}
@@ -61,9 +75,9 @@ export const CenterWindow = () => {
                   }
                   data-placeholder="Write a desecription (optional)"
                   html={selectedField.properties.description || ''}
-                />
+                /> */}
               </Stack>
-              <RenderFields field={selectedField} />
+              {/* <RenderFields field={selectedField} /> */}
             </Stack>
           </Container>
         )}
