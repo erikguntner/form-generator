@@ -1,8 +1,11 @@
 import {
+  DropdownField,
   EmailField,
   LongTextField,
+  MultipleChoiceField,
   PhoneNumberField,
   ShortTextField,
+  YesOrNoField,
 } from './ApplicationFields';
 import {Fields} from './workspaceSlice';
 
@@ -20,6 +23,12 @@ export const RenderFields = ({field}: RenderFieldsProps) => {
       return <PhoneNumberField />;
     case 'email':
       return <EmailField disabled />;
+    case 'yes_no':
+      return <YesOrNoField />;
+    case 'dropdown':
+      return <DropdownField />;
+    case 'multiple_choice':
+      return <MultipleChoiceField />;
     default:
       throw new Error('Invalid field type');
   }

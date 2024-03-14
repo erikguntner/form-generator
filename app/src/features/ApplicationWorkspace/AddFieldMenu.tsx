@@ -1,46 +1,9 @@
 import {Menu, MenuItem, MenuProps} from '@mui/material';
 import {alpha, styled} from '@mui/material/styles';
 
-import {FieldTypes} from './constants';
+import {menuItems} from './constants';
 import {FieldIcons} from './FieldIcons';
-
-interface Field {
-  type: FieldTypes;
-  value: string;
-}
-
-export const menuItems: Field[] = [
-  {
-    type: 'short_text',
-    value: 'Short text',
-  },
-  {
-    type: 'long_text',
-    value: 'Long text',
-  },
-  {
-    type: 'number',
-    value: 'Phone Number',
-  },
-
-  {
-    type: 'yes_no',
-    value: 'Yes or No',
-  },
-  {
-    type: 'multiple_choice',
-    value: 'Multiple Choice',
-  },
-
-  {
-    type: 'email',
-    value: 'Email',
-  },
-  {
-    type: 'dropdown',
-    value: 'Dropdown',
-  },
-];
+import {FieldTypes} from './workspaceSlice';
 
 interface AddFieldMenuProps {
   isOpen: boolean;

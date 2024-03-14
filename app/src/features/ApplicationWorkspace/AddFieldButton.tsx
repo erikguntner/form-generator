@@ -4,7 +4,7 @@ import {useState} from 'react';
 
 import {Tooltip} from '../Common';
 import {AddFieldMenu} from './AddFieldMenu';
-import {FieldTypes} from './constants';
+import {FieldTypes} from './workspaceSlice';
 
 interface AddFieldButtonProps {
   addField: (field: FieldTypes) => void;

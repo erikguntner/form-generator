@@ -1,3 +1,4 @@
+import {faker} from '@faker-js/faker';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 // Types of Fields
@@ -16,123 +17,125 @@ type FieldTypeTuple = typeof fieldTypes;
 export type FieldTypes = FieldTypeTuple[number];
 
 // Base Types for fields, properties, and validations
-type FieldProperties =
-  | BaseProperties
-  | DropdownFieldProperties
-  | MultipleChoiceFieldProperties;
+// type FieldProperties =
+//   | BaseProperties
+//   | DropdownFieldProperties
+//   | MultipleChoiceFieldProperties;
 
-type FieldValidations =
-  | BaseValidations
-  | ShortTextFieldValidations
-  | LongTextFieldValidations;
+// type FieldValidations =
+//   | BaseValidations
+//   | ShortTextFieldValidations
+//   | LongTextFieldValidations;
 
-// interface FieldBase {
-//   id: string;
-//   title: string;
-//   type: FieldTypes;
-//   properties: {
-//     description?: string;
-//     randomize?: boolean;
-//     alphabetical_order?: boolean;
-//     allow_multiple_selection?: boolean;
-//     allow_other_choice?: boolean;
-//     choices?: {
-//       id: string;
-//       label: string;
-//     }[];
-//   };
-//   validations: {
-//     required?: boolean;
-//     max_characters?: number;
-//   };
-// }
+export interface Choice {
+  id: string;
+  label: string;
+}
 
-interface BaseField<
-  T extends FieldTypes,
-  P extends FieldProperties,
-  V extends FieldValidations,
-> {
+export interface Fields {
   id: string;
   title: string;
-  type: T;
-  properties: P;
-  validations: V;
+  type: FieldTypes;
+  properties: {
+    description?: string;
+    randomize?: boolean;
+    alphabetical_order?: boolean;
+    allow_multiple_selection?: boolean;
+    allow_other_choice?: boolean;
+    choices?: Choice[];
+  };
+  validations: {
+    required?: boolean;
+    max_characters?: number;
+  };
 }
 
-interface BaseProperties {
-  description?: string;
-}
+// interface BaseField<
+//   T extends FieldTypes,
+//   P extends FieldProperties,
+//   V extends FieldValidations,
+// > {
+//   id: string;
+//   title: string;
+//   type: T;
+//   properties: P;
+//   validations: V;
+// }
 
-interface BaseValidations {
-  required?: boolean;
-}
+// interface BaseProperties {
+//   description?: string;
+// }
 
-//Space Types for properties
-interface DropdownFieldProperties extends BaseProperties {
-  randomize?: boolean;
-  alphabetical_order?: boolean;
-  choices?: {
-    id: string;
-    label: string;
-  }[];
-}
+// interface BaseValidations {
+//   required?: boolean;
+// }
 
-interface MultipleChoiceFieldProperties extends BaseProperties {
-  randomize?: boolean;
-  allow_multiple_selection?: boolean;
-  allow_other_choice?: boolean;
-  choices?: {
-    id: string;
-    label: string;
-  }[];
-}
+// //Space Types for properties
+// interface DropdownFieldProperties extends BaseProperties {
+//   randomize?: boolean;
+//   alphabetical_order?: boolean;
+//   choices?: {
+//     id: string;
+//     label: string;
+//   }[];
+// }
 
-// Specific Types for validations
-interface ShortTextFieldValidations extends BaseValidations {
-  max_characters?: number;
-}
-interface LongTextFieldValidations extends BaseValidations {
-  max_characters?: number;
-}
+// interface MultipleChoiceFieldProperties extends BaseProperties {
+//   randomize?: boolean;
+//   allow_multiple_selection?: boolean;
+//   allow_other_choice?: boolean;
+//   choices?: {
+//     id: string;
+//     label: string;
+//   }[];
+// }
 
-// Specific Types for fields
-type ShortTextField = BaseField<
-  'short_text',
-  BaseProperties,
-  ShortTextFieldValidations
->;
+// // Specific Types for validations
+// interface ShortTextFieldValidations extends BaseValidations {
+//   max_characters?: number;
+// }
+// interface LongTextFieldValidations extends BaseValidations {
+//   max_characters?: number;
+// }
 
-type LongTextField = BaseField<
-  'long_text',
-  BaseProperties,
-  LongTextFieldValidations
->;
+// // Specific Types for fields
+// type ShortTextField = BaseField<
+//   'short_text',
+//   BaseProperties,
+//   ShortTextFieldValidations
+// >;
 
-type EmailField = BaseField<'email', BaseProperties, BaseValidations>;
+// type LongTextField = BaseField<
+//   'long_text',
+//   BaseProperties,
+//   LongTextFieldValidations
+// >;
 
-type PhoneNumberField = BaseField<'number', BaseProperties, BaseValidations>;
+// type EmailField = BaseField<'email', BaseProperties, BaseValidations>;
 
-type YesNoField = BaseField<'yes_no', BaseProperties, BaseValidations>;
+// type PhoneNumberField = BaseField<'number', BaseProperties, BaseValidations>;
 
-type DropdownField = BaseField<
-  'dropdown',
-  DropdownFieldProperties,
-  BaseValidations
->;
+// type YesNoField = BaseField<'yes_no', BaseProperties, BaseValidations>;
 
-type MultipleChoiceField = BaseField<
-  'multiple_choice',
-  MultipleChoiceFieldProperties,
-  BaseValidations
->;
-export type Fields =
-  | ShortTextField
-  | LongTextField
-  | EmailField
-  | PhoneNumberField
-  | YesNoField
-  | DropdownField
-  | MultipleChoiceField;
+// type DropdownField = BaseField<
+//   'dropdown',
+//   DropdownFieldProperties,
+//   BaseValidations
+// >;
+
+// type MultipleChoiceField = BaseField<
+//   'multiple_choice',
+//   MultipleChoiceFieldProperties,
+//   BaseValidations
+// >;
+// export type Fields =
+//   | ShortTextField
+//   | LongTextField
+//   | EmailField
+//   | PhoneNumberField
+//   | YesNoField
+//   | DropdownField
+//   | MultipleChoiceField;
 
 interface WorkspaceState {
   selectedId: string | null;
@@ -155,6 +158,37 @@ const workspaceSlice = createSlice({
     },
     addField: (state, action: PayloadAction<Fields>) => {
       state.fields.push(action.payload);
+    },
+    addChoice: (state, action: PayloadAction<{id: string}>) => {
+      const {id} = action.payload;
+      const choice = {
+        id: faker.string.uuid(),
+        label: '',
+      };
+      const index = state.fields.findIndex(field => field.id === id);
+      state.fields[index].properties.choices?.push(choice);
+    },
+    updateChoice: (
+      state,
+      action: PayloadAction<{id: string; choiceId: string; label: string}>
+    ) => {
+      const {id, choiceId, label} = action.payload;
+      const index = state.fields.findIndex(field => field.id === id);
+      const choiceIndex = state.fields[index].properties.choices?.findIndex(
+        choice => choice.id === choiceId
+      );
+      state.fields[index].properties.choices![choiceIndex!].label = label;
+    },
+    deleteChoice: (
+      state,
+      action: PayloadAction<{id: string; choiceId: string}>
+    ) => {
+      const {id, choiceId} = action.payload;
+      const index = state.fields.findIndex(field => field.id === id);
+      const choiceIndex = state.fields[index].properties.choices?.findIndex(
+        choice => choice.id === choiceId
+      );
+      state.fields[index].properties.choices?.splice(choiceIndex!, 1);
     },
     editField: (state, action: PayloadAction<Partial<Fields>>) => {
       const {id} = action.payload;
@@ -184,5 +218,12 @@ const workspaceSlice = createSlice({
 });
 
 const {actions, reducer} = workspaceSlice;
-export const {setSelectedId, addField, editField} = actions;
+export const {
+  setSelectedId,
+  addField,
+  editField,
+  addChoice,
+  updateChoice,
+  deleteChoice,
+} = actions;
 export default reducer;
