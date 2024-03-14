@@ -137,8 +137,15 @@ export interface Fields {
 //   | DropdownField
 //   | MultipleChoiceField;
 
+interface FieldGroup {
+  id: string;
+  title: string;
+  fields: Fields[];
+}
+
 interface WorkspaceState {
   selectedId: string | null;
+  fieldGroups: FieldGroup[];
   fields: Fields[];
 }
 
@@ -146,6 +153,7 @@ interface WorkspaceState {
 
 const initialState: WorkspaceState = {
   selectedId: null,
+  fieldGroups: [],
   fields: [],
 };
 
