@@ -229,7 +229,6 @@ const workspaceSlice = createSlice({
         field => field.id === id
       );
       const currField = state.fieldGroups[groupIndex].fields[fieldIndex];
-      console.log(state.fieldGroups[groupIndex].fields[fieldIndex]);
       state.fieldGroups[groupIndex].fields.splice(fieldIndex, 1, {
         ...currField,
         ...field,
