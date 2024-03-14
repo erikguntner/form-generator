@@ -35,7 +35,13 @@ export const RenderFields = ({groupId, field}: RenderFieldsProps) => {
         />
       );
     case 'multiple_choice':
-      return <MultipleChoiceField groupId={groupId} id={field.id} />;
+      return (
+        <MultipleChoiceField
+          groupId={groupId}
+          id={field.id}
+          choices={field.properties.choices || []}
+        />
+      );
     default:
       throw new Error('Invalid field type');
   }
