@@ -176,8 +176,10 @@ const workspaceSlice = createSlice({
       const index = state.fieldGroups.findIndex(field => field.id === id);
       state.fieldGroups[index].title = title;
     },
-    addField: (state, action: PayloadAction<Fields>) => {
-      state.fields.push(action.payload);
+    addField: (state, action: PayloadAction<{id: string; field: Fields}>) => {
+      const {id, field} = action.payload;
+      const index = state.fieldGroups.findIndex(field => field.id === id);
+      state.fieldGroups[index].fields.push(field);
     },
     addChoice: (state, action: PayloadAction<{id: string}>) => {
       const {id} = action.payload;
@@ -210,15 +212,35 @@ const workspaceSlice = createSlice({
       );
       state.fields[index].properties.choices?.splice(choiceIndex!, 1);
     },
-    editField: (state, action: PayloadAction<Partial<Fields>>) => {
-      const {id} = action.payload;
-      const index = state.fields.findIndex(field => field.id === id);
-      const currField = state.fields[index];
-      state.fields.splice(index, 1, {
+    editField: (
+      state,
+      action: PayloadAction<{
+        groupId: string;
+        id: string;
+        field: Partial<Fields>;
+      }>
+    ) => {
+      const {groupId, id, field} = action.payload;
+      const groupIndex = state.fieldGroups.findIndex(
+        group => group.id === groupId
+      );
+
+      const fieldIndex = state.fieldGroups[groupIndex].fields.findIndex(
+        field => field.id === id
+      );
+      const currField = state.fieldGroups[groupIndex].fields[fieldIndex];
+      console.log(state.fieldGroups[groupIndex].fields[fieldIndex]);
+      state.fieldGroups[groupIndex].fields.splice(fieldIndex, 1, {
         ...currField,
-        ...action.payload,
-        properties: {...currField.properties, ...action.payload.properties},
-        validations: {...currField.validations, ...action.payload.validations},
+        ...field,
+        properties: {
+          ...currField.properties,
+          ...field.properties,
+        },
+        validations: {
+          ...currField.validations,
+          ...field.validations,
+        },
       });
     },
     editTitle: (state, action: PayloadAction<{id: string; title: string}>) => {
