@@ -11,7 +11,7 @@ import {LeftPanel} from '../LeftPanel';
 const setup = (preloadedState: Partial<RootState> = {}) => {
   render(<LeftPanel />, {
     preloadedState: {
-      workspace: {fields: [], selectedId: null},
+      workspace: {fields: [], fieldGroups: [], selectedId: null},
       ...preloadedState,
     },
   });
@@ -47,7 +47,7 @@ describe('LeftPanel', () => {
 
   test('clicking on list item selects it', async () => {
     const fields = Array.from(Array(3), () => fieldBuilder());
-    setup({workspace: {fields, selectedId: fields[0].id}});
+    setup({workspace: {fields, fieldGroups: [], selectedId: fields[0].id}});
 
     const listItems = await screen.findAllByRole('listitem');
     expect(listItems).toHaveLength(fields.length);

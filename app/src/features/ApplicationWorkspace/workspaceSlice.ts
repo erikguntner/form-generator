@@ -137,7 +137,7 @@ export interface Fields {
 //   | DropdownField
 //   | MultipleChoiceField;
 
-interface FieldGroup {
+export interface FieldGroup {
   id: string;
   title: string;
   fields: Fields[];
@@ -163,6 +163,13 @@ const workspaceSlice = createSlice({
   reducers: {
     setSelectedId: (state, action) => {
       state.selectedId = action.payload;
+    },
+    addFieldGroup: (state, action: PayloadAction<{id: string}>) => {
+      state.fieldGroups.push({
+        id: action.payload.id,
+        title: '',
+        fields: [],
+      });
     },
     addField: (state, action: PayloadAction<Fields>) => {
       state.fields.push(action.payload);
@@ -228,6 +235,7 @@ const workspaceSlice = createSlice({
 const {actions, reducer} = workspaceSlice;
 export const {
   setSelectedId,
+  addFieldGroup,
   addField,
   editField,
   addChoice,
