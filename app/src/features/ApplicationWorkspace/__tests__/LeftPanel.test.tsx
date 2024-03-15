@@ -11,7 +11,7 @@ import {LeftPanel} from '../LeftPanel';
 const setup = (preloadedState: Partial<RootState> = {}) => {
   render(<LeftPanel />, {
     preloadedState: {
-      workspace: {fields: [], fieldGroups: [], selectedId: null},
+      workspace: {fieldGroups: [], selectedId: null},
       ...preloadedState,
     },
   });
@@ -46,7 +46,6 @@ describe('LeftPanel', () => {
     const fieldGroups = Array.from(Array(3), () => fieldGroupBuilder({fields}));
     setup({
       workspace: {
-        fields,
         fieldGroups,
         selectedId: fieldGroups[0].id,
       },

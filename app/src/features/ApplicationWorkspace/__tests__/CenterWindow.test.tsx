@@ -1,12 +1,12 @@
 import {RootState} from '../../../redux/store';
 import {render, screen} from '../../../utils/test/test-utils';
 import {CenterWindow} from '../CenterWindow';
-import {fieldBuilder} from '../constants';
+import {fieldBuilder, fieldGroupBuilder} from '../constants';
 
 const setup = (preloadedState: Partial<RootState> = {}) => {
   const {container} = render(<CenterWindow />, {
     preloadedState: {
-      workspace: {fields: [], selectedId: null},
+      workspace: {fieldGroups: [], selectedId: null},
       ...preloadedState,
     },
   });
@@ -15,20 +15,17 @@ const setup = (preloadedState: Partial<RootState> = {}) => {
 };
 
 describe('CenterWindow', () => {
-  test('renders the title, description and field for the selected component', () => {
-    const fields = Array.from(Array(3), () =>
-      fieldBuilder({
-        type: 'short_text',
-        properties: {description: 'description'},
-      })
-    );
-    setup({workspace: {fields, selectedId: fields[0].id}});
+  test('renders the title and fields for the selected field group', () => {
+    const fields = Array.from(Array(3), () => fieldBuilder());
+    const fieldGroups = Array.from(Array(3), () => fieldGroupBuilder({fields}));
 
-    expect(screen.getByText(fields[0].title)).toBeInTheDocument();
+    setup({workspace: {fieldGroups, selectedId: fieldGroups[0].id}});
 
-    if (fields[0].properties.description) {
+    expect(screen.getByText(fieldGroups[0].title)).toBeInTheDocument();
+
+    if (fieldGroups[0].fields[0].properties.description) {
       expect(
-        screen.getByText(fields[0].properties.description)
+        screen.getByText(fieldGroups[0].fields[0].properties.description)
       ).toBeInTheDocument();
     }
   });

@@ -146,7 +146,6 @@ export interface FieldGroup {
 interface WorkspaceState {
   selectedId: string | null;
   fieldGroups: FieldGroup[];
-  fields: Fields[];
 }
 
 // type Expand<T> = T extends infer O ? {[K in keyof O]: O[K]} : never;
@@ -154,7 +153,6 @@ interface WorkspaceState {
 const initialState: WorkspaceState = {
   selectedId: null,
   fieldGroups: [],
-  fields: [],
 };
 
 const getGroupAndFieldIndex = (
@@ -231,7 +229,7 @@ const workspaceSlice = createSlice({
       const choiceIndex = state.fieldGroups[groupIndex].fields[
         fieldIndex
       ].properties.choices?.findIndex(choice => choice.id === choiceId);
-      
+
       state.fieldGroups[groupIndex].fields[fieldIndex].properties.choices![
         choiceIndex!
       ].label = label;
@@ -287,19 +285,6 @@ const workspaceSlice = createSlice({
           ...field.validations,
         },
       });
-    },
-    editTitle: (state, action: PayloadAction<{id: string; title: string}>) => {
-      const {id, title} = action.payload;
-      const index = state.fields.findIndex(field => field.id === id);
-      state.fields[index].title = title;
-    },
-    editDescription: (
-      state,
-      action: PayloadAction<{id: string; description: string}>
-    ) => {
-      const {id, description} = action.payload;
-      const index = state.fields.findIndex(field => field.id === id);
-      state.fields[index].properties.description = description;
     },
   },
 });
