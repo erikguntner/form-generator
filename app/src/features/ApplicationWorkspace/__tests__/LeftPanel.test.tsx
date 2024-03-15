@@ -5,7 +5,7 @@ import {
   userEvent,
   within,
 } from '../../../utils/test/test-utils';
-import {fieldBuilder} from '../constants';
+import {fieldBuilder, fieldGroupBuilder} from '../constants';
 import {LeftPanel} from '../LeftPanel';
 
 const setup = (preloadedState: Partial<RootState> = {}) => {
@@ -30,11 +30,7 @@ describe('LeftPanel', () => {
     const {addButton} = setup();
 
     await userEvent.click(addButton);
-    const shortTextItem = await screen.findByRole('menuitem', {
-      name: /short text/i,
-    });
 
-    await userEvent.click(shortTextItem);
     const fields = await screen.findAllByRole('listitem');
 
     expect(fields).toHaveLength(1);
@@ -47,10 +43,17 @@ describe('LeftPanel', () => {
 
   test('clicking on list item selects it', async () => {
     const fields = Array.from(Array(3), () => fieldBuilder());
-    setup({workspace: {fields, fieldGroups: [], selectedId: fields[0].id}});
+    const fieldGroups = Array.from(Array(3), () => fieldGroupBuilder({fields}));
+    setup({
+      workspace: {
+        fields,
+        fieldGroups,
+        selectedId: fieldGroups[0].id,
+      },
+    });
 
     const listItems = await screen.findAllByRole('listitem');
-    expect(listItems).toHaveLength(fields.length);
+    expect(listItems).toHaveLength(fieldGroups.length);
     expect(within(listItems[0]).getByRole('button')).toHaveAttribute(
       'aria-selected',
       'true'
