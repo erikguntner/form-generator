@@ -30,14 +30,10 @@ export const AddFieldButton = ({addField}: AddFieldButtonProps) => {
           onClick={handleClick}
           variant="contained"
           sx={{
-            backgroundColor: 'rgba(0, 0, 0, 1)',
             borderRadius: '8px',
             p: 1,
             minWidth: 'auto',
             color: 'palette.common.white',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            },
           }}
           aria-label="Add Content"
           size="small"

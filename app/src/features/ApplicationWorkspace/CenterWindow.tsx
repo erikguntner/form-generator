@@ -89,13 +89,9 @@ export const CenterWindow = () => {
   return (
     <Stack sx={{flex: 1, py: 10, px: 2}}>
       <StyledWindow>
-        <Container sx={{height: '100%'}} maxWidth="sm">
-          <Stack
-            sx={{height: '100%', paddingTop: 4, overflowY: 'auto'}}
-            justifyContent={'start'}
-            gap={3}
-          >
-            <Stack sx={{gap: 3}}>
+        <Container sx={{height: '100%', overflowY: 'auto'}} maxWidth="sm">
+          <Stack sx={{py: 4}} justifyContent={'start'} gap={3}>
+            <Stack sx={{gap: 3, alignItems: 'flex-start'}}>
               <Typography aria-labelledby="editable-title" variant="h5">
                 <StyledContentEditable
                   onChange={event =>
@@ -107,7 +103,7 @@ export const CenterWindow = () => {
               </Typography>
               {fieldGroup.fields.map(field => {
                 return (
-                  <Stack key={field.id} sx={{gap: 2}}>
+                  <Stack key={field.id} sx={{gap: 2, width: '100%'}}>
                     <StyledContentEditable
                       onChange={event =>
                         handleEditField({
