@@ -10,14 +10,21 @@ import {
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 
-import {useAppDispatch, useAppSelector} from '../../../redux/hooks';
-import {addChoice, deleteChoice, updateChoice} from '../workspaceSlice';
+import {useAppDispatch} from '../../../redux/hooks';
+import {addChoice, Choice, deleteChoice, updateChoice} from '../workspaceSlice';
 
-export const MultipleChoiceField = () => {
+interface MultipleChoiceFieldProps {
+  id: string;
+  groupId: string;
+  choices: Choice[];
+}
+
+export const MultipleChoiceField = ({
+  id,
+  groupId,
+  choices,
+}: MultipleChoiceFieldProps) => {
   const dispatch = useAppDispatch();
-  const selectedField = useAppSelector(({workspace}) =>
-    workspace.fields.find(field => field.id === workspace.selectedId)
-  );
 
   const handleOnChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -26,7 +33,8 @@ export const MultipleChoiceField = () => {
   ) => {
     dispatch(
       updateChoice({
-        id,
+        groupId,
+        fieldId: id,
         choiceId,
         label: event.currentTarget.value,
       })
@@ -34,36 +42,33 @@ export const MultipleChoiceField = () => {
   };
 
   const addNewChoice = () => {
-    if (selectedField) {
-      dispatch(addChoice({id: selectedField.id}));
-    }
+    dispatch(addChoice({groupId, id}));
   };
 
   const handleDeleteChoice = (id: string, choiceId: string) => {
-    dispatch(deleteChoice({id, choiceId}));
+    dispatch(deleteChoice({groupId, fieldId: id, choiceId}));
   };
 
   return (
     <Stack gap={1} alignItems="start">
       <List disablePadding>
-        {selectedField?.properties.choices?.map(({id, label}, index) => {
+        {choices.map((choice, index) => {
           return (
-            <ListItem disableGutters key={id}>
+            <ListItem disableGutters key={choice.id}>
               <StyledListNumber>{index + 1}</StyledListNumber>
               <StyledTextField
                 fullWidth
                 id="outlined"
                 variant="outlined"
                 placeholder="Type choice"
-                value={label}
+                value={choice.label}
                 multiline
                 autoFocus
-                onChange={event => handleOnChange(event, selectedField.id, id)}
+                onChange={event => handleOnChange(event, id, choice.id)}
               />
-              {selectedField.properties.choices?.length &&
-              selectedField.properties.choices?.length > 1 ? (
+              {choices.length && choices.length > 1 ? (
                 <StyledIconButton
-                  onClick={() => handleDeleteChoice(selectedField.id, id)}
+                  onClick={() => handleDeleteChoice(id, choice.id)}
                   size="small"
                   aria-label="delete"
                 >

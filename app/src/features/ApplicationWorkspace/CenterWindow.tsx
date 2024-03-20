@@ -1,72 +1,127 @@
+import {faker} from '@faker-js/faker';
 import {Container, Stack, styled, Typography} from '@mui/material';
 import ContentEdidable from 'react-contenteditable';
 
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {AddFieldButton} from './AddFieldButton';
 import {RenderFields} from './RenderApplicationFields';
-import {editField, Fields} from './workspaceSlice';
+import {
+  addField,
+  editField,
+  editFieldGroup,
+  Fields,
+  FieldTypes,
+} from './workspaceSlice';
 
 export const CenterWindow = () => {
   const dispatch = useAppDispatch();
-  const selectedField = useAppSelector(({workspace}) =>
-    workspace.fields.find(field => field.id === workspace.selectedId)
+  const fieldGroup = useAppSelector(({workspace}) =>
+    workspace.fieldGroups.find(
+      fieldGroup => fieldGroup.id === workspace.selectedId
+    )
   );
+
+  if (fieldGroup === undefined) {
+    return (
+      <Stack
+        sx={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+          height: '100%',
+        }}
+      >
+        <Typography variant="h5" sx={{color: 'text.secondary'}}>
+          Create a new field group
+        </Typography>
+      </Stack>
+    );
+  }
 
   const handleOnChange = (options: Partial<Fields>) => {
     dispatch(
-      editField({
-        id: selectedField?.id,
+      editFieldGroup({
+        id: fieldGroup.id,
         ...options,
       })
     );
   };
 
+  const handleEditField = ({id, title}: {id: string; title: string}) => {
+    dispatch(editField({groupId: fieldGroup.id, id, field: {title}}));
+  };
+
+  const addFields = (fieldType: FieldTypes) => {
+    const field: Fields = {
+      id: faker.string.uuid(),
+      type: fieldType,
+      title: '',
+      properties: {
+        description: '',
+      },
+      validations: {},
+    };
+
+    if (fieldType === 'dropdown') {
+      field.properties.choices = [];
+    }
+
+    if (fieldType === 'multiple_choice') {
+      field.properties.choices = [
+        {
+          id: faker.string.uuid(),
+          label: 'choice 1',
+        },
+        {
+          id: faker.string.uuid(),
+          label: 'choice 2',
+        },
+        {
+          id: faker.string.uuid(),
+          label: 'choice 3',
+        },
+      ];
+    }
+
+    dispatch(addField({id: fieldGroup.id, field}));
+  };
+
   return (
     <Stack sx={{flex: 1, py: 10, px: 2}}>
       <StyledWindow>
-        {selectedField === undefined ? (
-          <Stack
-            sx={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              flex: 1,
-              height: '100%',
-            }}
-          >
-            <Typography variant="h5" sx={{color: 'text.secondary'}}>
-              Select a field
-            </Typography>
-          </Stack>
-        ) : (
-          <Container sx={{height: '100%'}} maxWidth="sm">
-            <Stack sx={{height: '100%'}} justifyContent={'center'} gap={3}>
-              <Stack>
-                <Typography aria-labelledby="editable-title" variant="h5">
-                  <StyledContentEditable
-                    onChange={event =>
-                      handleOnChange({title: event.currentTarget.textContent})
-                    }
-                    data-placeholder="Write your question here"
-                    html={selectedField.title}
-                  />
-                </Typography>
+        <Container sx={{height: '100%', overflowY: 'auto'}} maxWidth="sm">
+          <Stack sx={{py: 4}} justifyContent={'start'} gap={3}>
+            <Stack sx={{gap: 3, alignItems: 'flex-start'}}>
+              <Typography aria-labelledby="editable-title" variant="h5">
                 <StyledContentEditable
-                  aria-labelledby="editable-description"
-                  sx={{color: 'text.secondary'}}
                   onChange={event =>
-                    handleOnChange({
-                      properties: {
-                        description: event.currentTarget.textContent,
-                      },
-                    })
+                    handleOnChange({title: event.currentTarget.textContent})
                   }
-                  data-placeholder="Write a desecription (optional)"
-                  html={selectedField.properties.description || ''}
+                  data-placeholder="Write your title here"
+                  html={fieldGroup.title}
                 />
-              </Stack>
-              <RenderFields field={selectedField} />
+              </Typography>
+              {fieldGroup.fields.map(field => {
+                return (
+                  <Stack key={field.id} sx={{gap: 2, width: '100%'}}>
+                    <StyledContentEditable
+                      onChange={event =>
+                        handleEditField({
+                          id: field.id,
+                          title: event.currentTarget.textContent,
+                        })
+                      }
+                      data-placeholder="Write your question here"
+                      html={field.title}
+                    />
+                    <RenderFields groupId={fieldGroup.id} field={field} />
+                  </Stack>
+                );
+              })}
+              <AddFieldButton addField={addFields} />
             </Stack>
-          </Container>
-        )}
+          </Stack>
+        </Container>
       </StyledWindow>
     </Stack>
   );

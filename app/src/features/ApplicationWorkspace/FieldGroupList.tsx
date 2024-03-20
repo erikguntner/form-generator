@@ -7,11 +7,10 @@ import {
 } from '@mui/material';
 import {MouseEvent as ReactMouseEvent} from 'react';
 
-import {FieldIcons} from './FieldIcons';
-import {Fields} from './workspaceSlice';
+import {FieldGroup} from './workspaceSlice';
 
 interface FieldListProps {
-  fields: Fields[];
+  fieldGroups: FieldGroup[];
   handleListItemClick: (
     event: ReactMouseEvent<HTMLDivElement, MouseEvent>,
     id: string
@@ -19,14 +18,14 @@ interface FieldListProps {
   selectedId: string | null;
 }
 
-export const FieldList = ({
-  fields,
+export const FieldGroupList = ({
+  fieldGroups,
   selectedId,
   handleListItemClick,
 }: FieldListProps) => {
   return (
     <List sx={{px: 1}} aria-label="list of fields">
-      {fields.map(({id, type, title}) => {
+      {fieldGroups.map(({id, title}, index) => {
         const fieldTitle = title || '...';
         return (
           <ListItem key={id} disableGutters disablePadding>
@@ -38,7 +37,7 @@ export const FieldList = ({
               disableRipple
             >
               <ListItemIcon sx={{color: 'text.primary', minWidth: 'auto'}}>
-                {FieldIcons[type].icon}
+                {index + 1}
               </ListItemIcon>
               <ListItemText sx={{textWrap: 'wrap'}} primary={fieldTitle} />
             </ListItemButton>

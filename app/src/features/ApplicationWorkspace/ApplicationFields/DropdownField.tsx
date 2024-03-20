@@ -16,17 +16,20 @@ import {
 import {ChangeEvent, Fragment} from 'react';
 import {useState} from 'react';
 
-import {useAppDispatch, useAppSelector} from '../../../redux/hooks';
+import {useAppDispatch} from '../../../redux/hooks';
 import {Choice, editField} from '../workspaceSlice';
 
-export const DropdownField = () => {
+interface DropdownFieldProps {
+  id: string;
+  groupId: string;
+  choices: Choice[];
+}
+
+export const DropdownField = ({id, groupId, choices}: DropdownFieldProps) => {
   const [choice, setChoice] = useState<string>('');
   const [open, setOpen] = useState(false);
 
   const dispatch = useAppDispatch();
-  const selectedField = useAppSelector(({workspace}) =>
-    workspace.fields.find(field => field.id === workspace.selectedId)
-  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,9 +56,12 @@ export const DropdownField = () => {
 
     dispatch(
       editField({
-        id: selectedField?.id,
-        properties: {
-          choices,
+        groupId,
+        id,
+        field: {
+          properties: {
+            choices,
+          },
         },
       })
     );
@@ -75,19 +81,23 @@ export const DropdownField = () => {
             inputProps={{'aria-label': 'select-choice'}}
             onChange={handleChange}
           >
-            <MenuItem value="">
-              <em>Select and option</em>
-            </MenuItem>
+            {choices.map(({label}) => {
+              return (
+                <MenuItem value={label}>
+                  <em>{label}</em>
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
         <Button onClick={handleClickOpen}>Edit Choices</Button>
       </Stack>
       <EditChoicesDialog
-        key={selectedField?.id}
+        key={id}
         open={open}
         handleClose={handleClose}
         saveChoices={saveChoices}
-        choices={selectedField?.properties?.choices || []}
+        choices={choices || []}
       />
     </Fragment>
   );

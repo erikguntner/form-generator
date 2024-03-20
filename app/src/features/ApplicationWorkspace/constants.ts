@@ -1,6 +1,6 @@
 import {faker} from '@faker-js/faker';
 
-import {Fields, FieldTypes, fieldTypes} from './workspaceSlice';
+import {FieldGroup, Fields, FieldTypes, fieldTypes} from './workspaceSlice';
 
 interface Field {
   type: FieldTypes;
@@ -39,6 +39,15 @@ export const menuItems: Field[] = [
     value: 'Dropdown',
   },
 ];
+
+export const fieldGroupBuilder = (
+  options: Partial<FieldGroup> = {}
+): FieldGroup => ({
+  id: faker.string.numeric(4),
+  title: faker.lorem.sentence({min: 5, max: 10}),
+  fields: [],
+  ...options,
+});
 
 export const fieldBuilder = (options: Partial<Fields> = {}): Fields => ({
   id: faker.string.numeric(4),

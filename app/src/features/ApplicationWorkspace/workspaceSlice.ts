@@ -137,16 +137,34 @@ export interface Fields {
 //   | DropdownField
 //   | MultipleChoiceField;
 
+export interface FieldGroup {
+  id: string;
+  title: string;
+  fields: Fields[];
+}
+
 interface WorkspaceState {
   selectedId: string | null;
-  fields: Fields[];
+  fieldGroups: FieldGroup[];
 }
 
 // type Expand<T> = T extends infer O ? {[K in keyof O]: O[K]} : never;
 
 const initialState: WorkspaceState = {
   selectedId: null,
-  fields: [],
+  fieldGroups: [],
+};
+
+const getGroupAndFieldIndex = (
+  groupId: string,
+  fieldId: string,
+  fieldGroups: FieldGroup[]
+) => {
+  const groupIndex = fieldGroups.findIndex(group => group.id === groupId);
+  const fieldIndex = fieldGroups[groupIndex].fields.findIndex(
+    field => field.id === fieldId
+  );
+  return {groupIndex, fieldIndex};
 };
 
 const workspaceSlice = createSlice({
@@ -156,63 +174,117 @@ const workspaceSlice = createSlice({
     setSelectedId: (state, action) => {
       state.selectedId = action.payload;
     },
-    addField: (state, action: PayloadAction<Fields>) => {
-      state.fields.push(action.payload);
+    addFieldGroup: (state, action: PayloadAction<{id: string}>) => {
+      state.fieldGroups.push({
+        id: action.payload.id,
+        title: '',
+        fields: [],
+      });
     },
-    addChoice: (state, action: PayloadAction<{id: string}>) => {
-      const {id} = action.payload;
+    editFieldGroup: (state, action) => {
+      const {id, title} = action.payload;
+      const index = state.fieldGroups.findIndex(field => field.id === id);
+      state.fieldGroups[index].title = title;
+    },
+    addField: (state, action: PayloadAction<{id: string; field: Fields}>) => {
+      const {id, field} = action.payload;
+      const index = state.fieldGroups.findIndex(field => field.id === id);
+      state.fieldGroups[index].fields.push(field);
+    },
+    addChoice: (
+      state,
+      action: PayloadAction<{groupId: string; id: string}>
+    ) => {
+      const {groupId, id} = action.payload;
+      const groupIndex = state.fieldGroups.findIndex(
+        group => group.id === groupId
+      );
+
+      const fieldIndex = state.fieldGroups[groupIndex].fields.findIndex(
+        field => field.id === id
+      );
       const choice = {
         id: faker.string.uuid(),
         label: '',
       };
-      const index = state.fields.findIndex(field => field.id === id);
-      state.fields[index].properties.choices?.push(choice);
+      state.fieldGroups[groupIndex].fields[fieldIndex].properties.choices?.push(
+        choice
+      );
     },
     updateChoice: (
       state,
-      action: PayloadAction<{id: string; choiceId: string; label: string}>
+      action: PayloadAction<{
+        groupId: string;
+        fieldId: string;
+        choiceId: string;
+        label: string;
+      }>
     ) => {
-      const {id, choiceId, label} = action.payload;
-      const index = state.fields.findIndex(field => field.id === id);
-      const choiceIndex = state.fields[index].properties.choices?.findIndex(
-        choice => choice.id === choiceId
+      const {groupId, fieldId, choiceId, label} = action.payload;
+      const {groupIndex, fieldIndex} = getGroupAndFieldIndex(
+        groupId,
+        fieldId,
+        state.fieldGroups
       );
-      state.fields[index].properties.choices![choiceIndex!].label = label;
+      const choiceIndex = state.fieldGroups[groupIndex].fields[
+        fieldIndex
+      ].properties.choices?.findIndex(choice => choice.id === choiceId);
+
+      state.fieldGroups[groupIndex].fields[fieldIndex].properties.choices![
+        choiceIndex!
+      ].label = label;
     },
     deleteChoice: (
       state,
-      action: PayloadAction<{id: string; choiceId: string}>
+      action: PayloadAction<{
+        groupId: string;
+        fieldId: string;
+        choiceId: string;
+      }>
     ) => {
-      const {id, choiceId} = action.payload;
-      const index = state.fields.findIndex(field => field.id === id);
-      const choiceIndex = state.fields[index].properties.choices?.findIndex(
-        choice => choice.id === choiceId
+      const {groupId, fieldId, choiceId} = action.payload;
+      const {groupIndex, fieldIndex} = getGroupAndFieldIndex(
+        groupId,
+        fieldId,
+        state.fieldGroups
       );
-      state.fields[index].properties.choices?.splice(choiceIndex!, 1);
+      const choiceIndex = state.fieldGroups[groupIndex].fields[
+        fieldIndex
+      ].properties.choices?.findIndex(choice => choice.id === choiceId);
+
+      state.fieldGroups[groupIndex].fields[
+        fieldIndex
+      ].properties.choices?.splice(choiceIndex!, 1);
     },
-    editField: (state, action: PayloadAction<Partial<Fields>>) => {
-      const {id} = action.payload;
-      const index = state.fields.findIndex(field => field.id === id);
-      const currField = state.fields[index];
-      state.fields.splice(index, 1, {
-        ...currField,
-        ...action.payload,
-        properties: {...currField.properties, ...action.payload.properties},
-        validations: {...currField.validations, ...action.payload.validations},
-      });
-    },
-    editTitle: (state, action: PayloadAction<{id: string; title: string}>) => {
-      const {id, title} = action.payload;
-      const index = state.fields.findIndex(field => field.id === id);
-      state.fields[index].title = title;
-    },
-    editDescription: (
+    editField: (
       state,
-      action: PayloadAction<{id: string; description: string}>
+      action: PayloadAction<{
+        groupId: string;
+        id: string;
+        field: Partial<Fields>;
+      }>
     ) => {
-      const {id, description} = action.payload;
-      const index = state.fields.findIndex(field => field.id === id);
-      state.fields[index].properties.description = description;
+      const {groupId, id, field} = action.payload;
+      const groupIndex = state.fieldGroups.findIndex(
+        group => group.id === groupId
+      );
+
+      const fieldIndex = state.fieldGroups[groupIndex].fields.findIndex(
+        field => field.id === id
+      );
+      const currField = state.fieldGroups[groupIndex].fields[fieldIndex];
+      state.fieldGroups[groupIndex].fields.splice(fieldIndex, 1, {
+        ...currField,
+        ...field,
+        properties: {
+          ...currField.properties,
+          ...field.properties,
+        },
+        validations: {
+          ...currField.validations,
+          ...field.validations,
+        },
+      });
     },
   },
 });
@@ -220,6 +292,8 @@ const workspaceSlice = createSlice({
 const {actions, reducer} = workspaceSlice;
 export const {
   setSelectedId,
+  addFieldGroup,
+  editFieldGroup,
   addField,
   editField,
   addChoice,
